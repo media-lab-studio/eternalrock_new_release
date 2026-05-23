@@ -375,7 +375,7 @@ async function init() {
 if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
 else init();
 
-// 🔥🔥🔥 ЯДЕРНЫЙ ФИКС ЦЕНТРИРОВАНИЯ — запускается ПОСЛЕ всего 🔥🔥🔥
+// 🔥🔥🔥 ЯДЕРНЫЙ ФИКС ЦЕНТРИРОВАНИЯ — ИСПРАВЛЕННАЯ ВЕРСИЯ 🔥🔥🔥
 (function forceCentering() {
   'use strict';
   
@@ -390,68 +390,67 @@ else init();
       return;
     }
     
-    console.log('🔥 Applying nuclear centering fix...');
+    console.log('🔥 Applying nuclear centering fix (setProperty version)...');
+    
+    // 🔧 Вспомогательная функция для установки стиля с !important
+    const setImportant = (el, prop, value) => {
+      el.style.setProperty(prop, value, 'important');
+    };
     
     // Фиксируем html
-    html.style.cssText = `
-      width: 100vw !important;
-      max-width: none !important;
-      overflow-x: hidden !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    `;
+    setImportant(html, 'width', '100vw');
+    setImportant(html, 'max-width', 'none');
+    setImportant(html, 'overflow-x', 'hidden');
+    setImportant(html, 'margin', '0');
+    setImportant(html, 'padding', '0');
     
     // Фиксируем body
-    body.style.cssText = `
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      width: 100vw !important;
-      min-width: 100vw !important;
-      max-width: none !important;
-      height: 100vh !important;
-      min-height: 100vh !important;
-      display: flex !important;
-      justify-content: center !important;
-      align-items: stretch !important;
-      overflow: hidden !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      transform: none !important;
-      translate: none !important;
-      flex-shrink: 0 !important;
-      flex-grow: 0 !important;
-    `;
+    setImportant(body, 'position', 'fixed');
+    setImportant(body, 'top', '0');
+    setImportant(body, 'left', '0');
+    setImportant(body, 'right', '0');
+    setImportant(body, 'bottom', '0');
+    setImportant(body, 'width', '100vw');
+    setImportant(body, 'min-width', '100vw');
+    setImportant(body, 'max-width', 'none');
+    setImportant(body, 'height', '100vh');
+    setImportant(body, 'min-height', '100vh');
+    setImportant(body, 'display', 'flex');
+    setImportant(body, 'justify-content', 'center');
+    setImportant(body, 'align-items', 'stretch');
+    setImportant(body, 'overflow', 'hidden');
+    setImportant(body, 'margin', '0');
+    setImportant(body, 'padding', '0');
+    setImportant(body, 'transform', 'none');
+    setImportant(body, 'translate', 'none');
+    setImportant(body, 'flex-shrink', '0');
+    setImportant(body, 'flex-grow', '0');
     
     // Фиксируем контейнер
-    container.style.cssText = `
-      display: grid !important;
-      grid-template-rows: auto 1fr auto auto !important;
-      grid-template-areas: "header" "content" "player" "social" !important;
-      height: 100vh !important;
-      width: 100% !important;
-      max-width: 1400px !important;
-      margin: 0 auto !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      padding: 20px !important;
-      gap: 12px !important;
-      position: relative !important;
-      z-index: 1 !important;
-      left: auto !important;
-      right: auto !important;
-      transform: none !important;
-      translate: none !important;
-    `;
+    setImportant(container, 'display', 'grid');
+    setImportant(container, 'grid-template-rows', 'auto 1fr auto auto');
+    setImportant(container, 'grid-template-areas', '"header" "content" "player" "social"');
+    setImportant(container, 'height', '100vh');
+    setImportant(container, 'width', '100%');
+    setImportant(container, 'max-width', '1400px');
+    setImportant(container, 'margin', '0 auto');
+    setImportant(container, 'margin-left', 'auto');
+    setImportant(container, 'margin-right', 'auto');
+    setImportant(container, 'padding', '20px');
+    setImportant(container, 'gap', '12px');
+    setImportant(container, 'position', 'relative');
+    setImportant(container, 'z-index', '1');
+    setImportant(container, 'left', 'auto');
+    setImportant(container, 'right', 'auto');
+    setImportant(container, 'transform', 'none');
+    setImportant(container, 'translate', 'none');
     
     // Визуальная проверка
     body.style.outline = '2px solid lime';
     container.style.outline = '3px dashed #ff5e00';
     container.style.outlineOffset = '-3px';
     
-    console.log('✅ Nuclear fix applied! Check centering.');
+    console.log('✅ Nuclear fix applied with setProperty! Check centering.');
     
     // Финальная проверка через 200мс
     setTimeout(() => {
