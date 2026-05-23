@@ -129,26 +129,38 @@ body {
 /* ============================================
    📐 MAIN CONTAINER (100vh layout)
    ============================================ */
+/* ===== .app-container: GRID + ЖЁСТКОЕ ЦЕНТРИРОВАНИЕ ===== */
 .app-container {
-  display: grid;
-  grid-template-rows: auto 1fr auto auto;
+  display: grid !important;
+  grid-template-rows: auto 1fr auto auto !important;
   grid-template-areas:
     "header"
     "content"
     "player"
-    "social";
+    "social" !important;
   
-  height: 100vh;
-  width: 100%;
-  max-width: 1400px;
+  height: 100vh !important;
+  width: 100% !important;
+  max-width: 1400px !important;
   
-  /* ✅ Auto margins работают внутри flex-родителя */
-  margin: 0 auto;
-  padding: var(--spacing-md);
-  gap: var(--spacing-sm);
+  /* 🔥 МАКСИМАЛЬНОЕ ЦЕНТРИРОВАНИЕ */
+  margin: 0 auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   
-  position: relative;
-  z-index: 1;
+  padding: var(--spacing-md) !important;
+  gap: var(--spacing-sm) !important;
+  
+  position: relative !important;
+  z-index: 1 !important;
+  
+  /* 🔥 ЗАПРЕТ НА СМЕЩЕНИЕ */
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  translate: none !important;
 }
 
 /* ============================================
