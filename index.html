@@ -137,15 +137,15 @@
 
   </main>
 
-  <!-- Audio element -->
+    <!-- Audio element -->
   <audio id="audioStream" preload="none" crossorigin="anonymous"></audio>
 
-  <!-- 🔥 jQuery (ОБЯЗАТЕЛЬНО перед плеером myradio24) -->
+  <!-- 🔥 1. jQuery — ОБЯЗАТЕЛЬНО ПЕРВЫМ -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"
     integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
     crossorigin="anonymous"></script>
 
-  <!-- Плеер myradio24 -->
+  <!-- 2. Плеер myradio24 (требует jQuery) -->
   <script src="https://myradio24.com/player/player.js?v3.31"
     data-radio="25968"
     data-interval="15"
@@ -153,7 +153,7 @@
     data-lang="ru"
     async></script>
 
-  <!-- ✅ МОДУЛЬНАЯ ВЕРСИЯ (для GitHub Pages / HTTPS) -->
+  <!-- 3. Наш app.js (модуль) -->
   <script type="module" src="js/app.js"></script>
 
 </body>
