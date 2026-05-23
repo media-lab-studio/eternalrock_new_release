@@ -170,7 +170,6 @@ export function getProgramAtTime(timeStr) {
   return null;
 }
 
-// ✅ ТОЛЬКО ОДИН БЛОК ЭКСПОРТОВ (в самом конце файла)
 export {
   initSchedule,
   highlightCurrentProgram,
@@ -178,5 +177,4 @@ export {
   stopAutoUpdates,
   getCurrentProgram,
   getProgramAtTime,
-  SCHEDULE,
 };
