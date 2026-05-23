@@ -120,7 +120,10 @@ function resetAutoSlide() { stopAutoSlide(); startAutoSlide(); }
 
 // ===== PLAYER =====
 function initPlayer() {
-  if (!DOM.audio) return;
+  if (!DOM.audio) {
+    console.warn('⚠️ Audio element not found');
+    return;
+  }
   
   DOM.audio.src = CONFIG.STREAM_URL;
   DOM.audio.volume = state.volume;
@@ -150,15 +153,21 @@ function initPlayer() {
     disableWakeLock();
   });
 
+  // ✅ ДОБАВЬТЕ ПРОВЕРКУ перед установкой value
   if (DOM.player.volumeSlider) {
     DOM.player.volumeSlider.value = state.volume * 100;
     updateVolumeDisplay(state.volume * 100);
+    
     DOM.player.volumeSlider.addEventListener('input', (e) => {
       state.volume = e.target.value / 100;
       DOM.audio.volume = state.volume;
       updateVolumeDisplay(e.target.value);
     });
+  } else {
+    console.warn('⚠️ volumeSlider not found');
   }
+  
+  console.log('🎵 Player initialized');
 }
 
 function updateVolumeDisplay(val) {
