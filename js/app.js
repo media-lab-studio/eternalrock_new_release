@@ -8,7 +8,7 @@ import {
   initSchedule, 
   highlightCurrentProgram, 
   updateCurrentTime,
-  stopScheduleUpdates,
+  stopAutoUpdates as stopScheduleUpdates,  
   getCurrentProgram,
   SCHEDULE 
 } from './schedule.js';
