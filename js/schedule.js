@@ -1,6 +1,6 @@
 /**
  * Schedule Module - EternalRock
- * Clean exports, no conflicts
+ * ✅ Clean exports: inline only, no duplicate export block
  */
 
 // ===== SCHEDULE DATA =====
@@ -23,8 +23,6 @@ export const SCHEDULE = [
 // ===== STATE =====
 let _currentProgramId = null;
 let _updateInterval = null;
-
-// ===== DOM CACHE =====
 let _dom = { list: null, currentTime: null };
 
 /**
@@ -33,48 +31,31 @@ let _dom = { list: null, currentTime: null };
 export function initSchedule(selectors = {}) {
   _dom.list = document.querySelector(selectors.list || '#scheduleList');
   _dom.currentTime = document.querySelector(selectors.currentTime || '#currentTime');
-  
-  if (!_dom.list) {
-    console.warn('⚠️ Schedule list container not found');
-    return;
-  }
-  
+  if (!_dom.list) { console.warn('⚠️ Schedule list not found'); return; }
   _renderSchedule();
   _startAutoUpdates();
-  console.log('📅 Schedule module initialized');
+  console.log('📅 Schedule initialized');
 }
 
-/**
- * Render schedule items
- */
 function _renderSchedule() {
   if (!_dom.list) return;
   _dom.list.innerHTML = '';
-  
   SCHEDULE.forEach((item, index) => {
     const li = document.createElement('li');
     li.className = 'schedule-item';
     li.dataset.id = item.id;
-    li.dataset.index = index;
     li.innerHTML = `<span class="time">${item.time}</span><span class="program">${item.program}</span>`;
     _dom.list.appendChild(li);
   });
 }
 
-/**
- * Parse "HH:MM" to minutes
- */
-function _parseTime(timeStr) {
-  const [h, m] = timeStr.trim().split(':').map(Number);
+function _parseTime(str) {
+  const [h, m] = str.trim().split(':').map(Number);
   return h * 60 + m;
 }
 
-/**
- * Check if time is in range (handles overnight)
- */
-function _isTimeInRange(current, start, end) {
-  if (end < start) return current >= start || current < end;
-  return current >= start && current < end;
+function _isTimeInRange(cur, start, end) {
+  return end < start ? cur >= start || cur < end : cur >= start && cur < end;
 }
 
 /**
@@ -82,36 +63,20 @@ function _isTimeInRange(current, start, end) {
  */
 export function highlightCurrentProgram() {
   const now = new Date();
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
-  
+  const curMin = now.getHours() * 60 + now.getMinutes();
   document.querySelectorAll('.schedule-item').forEach(item => {
-    const timeEl = item.querySelector('.time');
-    if (!timeEl) return;
-    
-    const [startStr, endStr] = timeEl.textContent.split('–');
-    const start = _parseTime(startStr);
-    const end = _parseTime(endStr);
-    const isActive = _isTimeInRange(currentMinutes, start, end);
-    
-    item.classList.toggle('active', isActive);
-    
-    const programEl = item.querySelector('.program');
-    if (!programEl) return;
-    
-    const badge = programEl.querySelector('.live-badge');
-    if (isActive) {
+    const tEl = item.querySelector('.time'); if (!tEl) return;
+    const [sStr, eStr] = tEl.textContent.split('–');
+    const s = _parseTime(sStr), e = _parseTime(eStr);
+    const active = _isTimeInRange(curMin, s, e);
+    item.classList.toggle('active', active);
+    const pEl = item.querySelector('.program'); if (!pEl) return;
+    const badge = pEl.querySelector('.live-badge');
+    if (active) {
       _currentProgramId = item.dataset.id;
-      if (!badge) {
-        const b = document.createElement('span');
-        b.className = 'live-badge';
-        b.textContent = 'LIVE';
-        programEl.appendChild(b);
-      }
-    } else if (badge) {
-      badge.remove();
-    }
+      if (!badge) { const b = document.createElement('span'); b.className = 'live-badge'; b.textContent = 'LIVE'; pEl.appendChild(b); }
+    } else if (badge) badge.remove();
   });
-  
   return _currentProgramId;
 }
 
@@ -121,60 +86,41 @@ export function highlightCurrentProgram() {
 export function updateCurrentTime() {
   if (!_dom.currentTime) return;
   const now = new Date();
-  const h = String(now.getHours()).padStart(2, '0');
-  const m = String(now.getMinutes()).padStart(2, '0');
+  const h = String(now.getHours()).padStart(2,'0'), m = String(now.getMinutes()).padStart(2,'0');
   _dom.currentTime.textContent = `${h}:${m}`;
   _dom.currentTime.setAttribute('datetime', now.toISOString());
 }
 
-/**
- * Start auto-updates
- */
 function _startAutoUpdates() {
-  updateCurrentTime();
-  highlightCurrentProgram();
+  updateCurrentTime(); highlightCurrentProgram();
   if (_updateInterval) clearInterval(_updateInterval);
-  _updateInterval = setInterval(() => {
-    updateCurrentTime();
-    highlightCurrentProgram();
-  }, 60000);
+  _updateInterval = setInterval(() => { updateCurrentTime(); highlightCurrentProgram(); }, 60000);
 }
 
 /**
- * Stop auto-updates (cleanup)
+ * Stop auto-updates
  */
 export function stopAutoUpdates() {
-  if (_updateInterval) {
-    clearInterval(_updateInterval);
-    _updateInterval = null;
-  }
+  if (_updateInterval) { clearInterval(_updateInterval); _updateInterval = null; }
 }
 
 /**
- * Get current program info
+ * Get current program
  */
 export function getCurrentProgram() {
-  if (!_currentProgramId) return null;
-  return SCHEDULE.find(item => item.id === _currentProgramId) || null;
+  return _currentProgramId ? SCHEDULE.find(i => i.id === _currentProgramId) || null : null;
 }
 
 /**
- * Get program at specific time (for testing)
+ * Get program at time (testing)
  */
 export function getProgramAtTime(timeStr) {
-  const minutes = _parseTime(timeStr);
+  const min = _parseTime(timeStr);
   for (const item of SCHEDULE) {
-    const [s, e] = item.time.split('–');
-    if (_isTimeInRange(minutes, _parseTime(s), _parseTime(e))) return item;
+    const [s,e] = item.time.split('–');
+    if (_isTimeInRange(min, _parseTime(s), _parseTime(e))) return item;
   }
   return null;
 }
 
-export {
-  initSchedule,
-  highlightCurrentProgram,
-  updateCurrentTime,
-  stopAutoUpdates,
-  getCurrentProgram,
-  getProgramAtTime,
-};
+// ✅ НЕТ БЛОКА `export { ... }` В КОНЦЕ — всё уже экспортировано inline!
