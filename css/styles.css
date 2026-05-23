@@ -65,13 +65,14 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* ===== BODY: ТОЛЬКО FLEX-ЦЕНТРИРОВАНИЕ ===== */
 body {
   font-family: var(--font-body);
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.5;
   
-  /* 🔥 Центрирование через flex */
+  /* 🔥 Центрирование дочернего элемента */
   display: flex !important;
   justify-content: center !important;
   align-items: stretch !important;
@@ -79,7 +80,6 @@ body {
   overflow: hidden !important;
   height: 100vh;
   width: 100vw;
-  
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -139,9 +139,11 @@ body {
     "social";
   
   height: 100vh;
-  width: 100%;           
-  max-width: 1400px;     
-
+  width: 100%;
+  max-width: 1400px;
+  
+  /* ✅ Auto margins работают внутри flex-родителя */
+  margin: 0 auto;
   padding: var(--spacing-md);
   gap: var(--spacing-sm);
   
@@ -1027,25 +1029,6 @@ body.fullscreen-active {
 .content-grid { animation-delay: 0.2s; }
 .player-panel { animation-delay: 0.3s; }
 .social-bar { animation-delay: 0.4s; }
-
-/* 🔥 ЗАПРЕТ НА ИЗМЕНЕНИЕ ПОЗИЦИОНИРОВАНИЯ ЧЕРЕЗ JS */
-body,
-.app-container {
-  transform: none !important;
-  left: auto !important;
-  right: auto !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-/* Если анимация всё же нужна — применяйте к внутренним элементам */
-.app-header,
-.content-grid,
-.player-panel,
-.social-bar {
-  animation: fadeInUp 0.4s ease forwards;
-  /* Но не применяем transform к самому .app-container */
-}
 
 /* 🔥 ГАРАНТИРОВАННОЕ ЦЕНТРИРОВАНИЕ */
 body > .app-container {
