@@ -1,14 +1,15 @@
 /**
  * EternalRock — Modern Player Application
- * ES6 Modules Version for GitHub Pages / HTTPS
+ * ES6 Modules Version for GitHub Pages
  */
 
 // ===== IMPORTS =====
+// ✅ Исправленный импорт с правильным alias
 import { 
   initSchedule, 
   highlightCurrentProgram, 
   updateCurrentTime,
-  stopAutoUpdates as stopScheduleUpdates,  
+  stopAutoUpdates as stopScheduleUpdates, 
   getCurrentProgram,
   SCHEDULE 
 } from './schedule.js';
