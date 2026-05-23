@@ -43,24 +43,18 @@
 }
 
 /* ============================================
-   🌍 GLOBAL RESET & CENTERING FIX
+   🌍 GLOBAL RESET
    ============================================ */
-/* ============================================
-   🌍 GLOBAL RESET — ЕДИНЫЙ БЛОК ДЛЯ BODY
-   ============================================ */
-
-/* Сброс для html */
 html {
   margin: 0 !important;
   padding: 0 !important;
   width: 100% !important;
-  max-width: none !important;  /* ← Ключевое: отменяем ограничение */
+  max-width: none !important;
   overflow-x: hidden !important;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
-/* Сброс для всех элементов */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -68,34 +62,31 @@ html {
   max-width: 100%;
 }
 
-/* ===== BODY: ФИКСИРОВАННЫЙ НА ВЕСЬ ВИЬЮПОРТ ===== */
 body {
   font-family: var(--font-body);
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.5;
   
-  /* 🔥 Flex-центрирование */
+  /* 🔥 Flex-центрирование контейнера */
   display: flex !important;
   justify-content: center !important;
   align-items: stretch !important;
   
-  /* 🔥 Жёсткая фиксация на весь экран */
+  /* 🔥 Фиксация на весь экран */
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
   
-  /* 🔥 Размеры без ограничений */
   width: 100vw !important;
   min-width: 100vw !important;
-  max-width: none !important;  /* ← ОТМЕНЯЕМ любое max-width */
+  max-width: none !important;
   height: 100vh !important;
   min-height: 100vh !important;
   max-height: none !important;
   
-  /* 🔥 Запрет на сжатие/растяжение */
   flex-shrink: 0 !important;
   flex-grow: 0 !important;
   
@@ -103,7 +94,6 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   
-  /* 🔥 Запрет трансформаций */
   transform: none !important;
   translate: none !important;
 }
@@ -151,64 +141,48 @@ body {
 }
 
 /* ============================================
-   📐 MAIN CONTAINER (100vh layout)
+   📐 MAIN CONTAINER + GRID LAYOUT
    ============================================ */
-/* ===== .app-container: GRID + ЖЁСТКОЕ ЦЕНТРИРОВАНИЕ ===== */
-/* 🔥 ЦЕНТРИРОВАНИЕ ВНУТРЕННИХ ЭЛЕМЕНТОВ В СЕТКЕ */
 .app-container {
-  /* ... ваши существующие стили ... */
+  display: grid !important;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    "header"
+    "content"
+    "player"
+    "social";
   
-  /* ✅ ДОБАВЬТЕ ЭТО: */
-  justify-items: center !important;  /* Центрирует грид-элементы по горизонтали */
-}
-
-/* ✅ Центрируем содержимое секций */
-.app-header,
-.content-grid,
-.player-panel,
-.social-bar {
-  width: 100%;
-  max-width: 1400px;  /* Ограничиваем ширину контента */
-  margin: 0 auto;     /* Центрируем внутри родителя */
-}
-
-/* ✅ Особая обработка для header (space-between ломает центрирование) */
-.app-header {
-  justify-content: center !important;  /* Было: space-between */
-  gap: var(--spacing-md);              /* Добавляем отступ вместо растягивания */
-}
-
-/* ✅ Возвращаем правильное выравнивание для brand и кнопки */
-.header-brand {
-  text-align: center;
-}
-
-.btn-download {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* ✅ Для content-grid: центрируем колонки */
-.content-grid {
-  justify-items: center;  /* Центрирует элементы внутри грида */
-}
-
-/* ✅ Адаптив: на мобильных всё на всю ширину */
-@media (max-width: 1024px) {
-  .app-header {
-    justify-content: center !important;
-  }
+  grid-template-columns: 1fr;
   
-  .content-grid {
-    justify-items: stretch;  /* На мобильных растягиваем */
-  }
+  height: 100vh !important;
+  width: 100% !important;
+  max-width: 1400px !important;
+  
+  margin: 0 auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  
+  padding: var(--spacing-md) !important;
+  gap: var(--spacing-sm) !important;
+  
+  position: relative !important;
+  z-index: 1 !important;
+  
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
 }
+
+/* 🔥 КЛЮЧЕВОЕ: Размещение детей в грид-областях */
+.app-header   { grid-area: header !important; }
+.content-grid { grid-area: content !important; }
+.player-panel { grid-area: player !important; }
+.social-bar   { grid-area: social !important; }
 
 /* ============================================
    🏷️ HEADER
    ============================================ */
 .app-header {
-  grid-area: header;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -218,6 +192,10 @@ body {
   border: 1px solid var(--color-border);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-lg);
+  
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .header-brand {
@@ -312,11 +290,14 @@ body {
    📊 CONTENT GRID
    ============================================ */
 .content-grid {
-  grid-area: content;
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: var(--spacing-md);
   min-height: 0;
+  
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 /* ---------- СЛАЙДЕР ---------- */
@@ -327,6 +308,8 @@ body {
   overflow: hidden;
   position: relative;
   box-shadow: var(--shadow-lg);
+  
+  width: 100%;
 }
 
 .slider-wrapper {
@@ -464,6 +447,8 @@ body {
   flex-direction: column;
   overflow: hidden;
   box-shadow: var(--shadow-lg);
+  
+  width: 100%;
 }
 
 .schedule-header {
@@ -568,7 +553,6 @@ body {
    🎵 PLAYER PANEL
    ============================================ */
 .player-panel {
-  grid-area: player;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -579,6 +563,10 @@ body {
   border: 1px solid var(--color-border);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-lg);
+  
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 /* ----- Vinyl Button ----- */
@@ -810,11 +798,14 @@ body {
    🔗 SOCIAL BAR
    ============================================ */
 .social-bar {
-  grid-area: social;
   display: flex;
   justify-content: center;
   gap: var(--spacing-md);
   padding: 0 var(--spacing-md);
+  
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .social-btn {
@@ -876,6 +867,11 @@ body {
   :root {
     --spacing-md: 16px;
     --spacing-sm: 10px;
+  }
+
+  .app-container {
+    padding: var(--spacing-sm);
+    gap: 8px;
   }
 
   .app-header {
