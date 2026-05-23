@@ -2,26 +2,26 @@
 (function monitorStyles() {
   const targets = [document.body, document.querySelector('.app-container')].filter(Boolean);
   
-  targets.forEach(target => {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach(m => {
-        if (m.attributeName === 'style' || m.attributeName === 'class') {
-          console.warn('⚠️ Style changed on', target.tagName + '.' + target.className, {
-            attribute: m.attributeName,
-            oldValue: m.oldValue,
-            newValue: target.getAttribute('style') || target.className,
-            stack: new Error().stack
-          });
-        }
-      });
-    });
+  // targets.forEach(target => {
+  //   const observer = new MutationObserver((mutations) => {
+  //     mutations.forEach(m => {
+  //       if (m.attributeName === 'style' || m.attributeName === 'class') {
+  //         console.warn('⚠️ Style changed on', target.tagName + '.' + target.className, {
+  //           attribute: m.attributeName,
+  //           oldValue: m.oldValue,
+  //           newValue: target.getAttribute('style') || target.className,
+  //           stack: new Error().stack
+  //         });
+  //       }
+  //     });
+  //   });
     
-    observer.observe(target, {
-      attributes: true,
-      attributeFilter: ['style', 'class'],
-      attributeOldValue: true
-    });
-  });
+  //   observer.observe(target, {
+  //     attributes: true,
+  //     attributeFilter: ['style', 'class'],
+  //     attributeOldValue: true
+  //   });
+  // });
   
   console.log('🔍 Style monitoring active');
 })();
@@ -375,23 +375,99 @@ async function init() {
 if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
 else init();
 
-// 🔥 ЯДЕРНЫЙ ФИКС ЦЕНТРИРОВАНИЯ (запускается после полной загрузки)
-window.addEventListener('load', () => {
-  setTimeout(() => {
+// 🔥🔥🔥 ЯДЕРНЫЙ ФИКС ЦЕНТРИРОВАНИЯ — запускается ПОСЛЕ всего 🔥🔥🔥
+(function forceCentering() {
+  'use strict';
+  
+  function applyFix() {
+    const html = document.documentElement;
     const body = document.body;
     const container = document.querySelector('.app-container');
     
-    if (body && container) {
-      // Форсируем стили через inline + !important
-      body.style.setProperty('width', '100vw', 'important');
-      body.style.setProperty('max-width', 'none', 'important');
-      container.style.setProperty('margin-left', 'auto', 'important');
-      container.style.setProperty('margin-right', 'auto', 'important');
-      
-      console.log('🔧 Force-centering applied via JS');
+    if (!body || !container) {
+      console.warn('⏳ Waiting for DOM...');
+      requestAnimationFrame(applyFix);
+      return;
     }
-  }, 100);
-});
+    
+    console.log('🔥 Applying nuclear centering fix...');
+    
+    // Фиксируем html
+    html.style.cssText = `
+      width: 100vw !important;
+      max-width: none !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    `;
+    
+    // Фиксируем body
+    body.style.cssText = `
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      min-width: 100vw !important;
+      max-width: none !important;
+      height: 100vh !important;
+      min-height: 100vh !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: stretch !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      transform: none !important;
+      translate: none !important;
+      flex-shrink: 0 !important;
+      flex-grow: 0 !important;
+    `;
+    
+    // Фиксируем контейнер
+    container.style.cssText = `
+      display: grid !important;
+      grid-template-rows: auto 1fr auto auto !important;
+      grid-template-areas: "header" "content" "player" "social" !important;
+      height: 100vh !important;
+      width: 100% !important;
+      max-width: 1400px !important;
+      margin: 0 auto !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding: 20px !important;
+      gap: 12px !important;
+      position: relative !important;
+      z-index: 1 !important;
+      left: auto !important;
+      right: auto !important;
+      transform: none !important;
+      translate: none !important;
+    `;
+    
+    // Визуальная проверка
+    body.style.outline = '2px solid lime';
+    container.style.outline = '3px dashed #ff5e00';
+    container.style.outlineOffset = '-3px';
+    
+    console.log('✅ Nuclear fix applied! Check centering.');
+    
+    // Финальная проверка через 200мс
+    setTimeout(() => {
+      const rect = container.getBoundingClientRect();
+      const offset = Math.abs(rect.left - (window.innerWidth - rect.right)) / 2;
+      console.log(`📐 Final offset: ${offset.toFixed(1)}px ${offset <= 2 ? '✅' : '❌'}`);
+    }, 200);
+  }
+  
+  // Запускаем после полной загрузки
+  if (document.readyState === 'complete') {
+    applyFix();
+  } else {
+    window.addEventListener('load', applyFix);
+  }
+})();
 
 // ===== CSS ANIMATIONS =====
 if(!document.getElementById('eternalrock-styles')) {
