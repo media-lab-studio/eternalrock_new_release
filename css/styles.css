@@ -1021,11 +1021,11 @@ body.fullscreen-active {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    margin-top: 10px;  /* ← Вместо transform */
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    margin-top: 0;
   }
 }
 
@@ -1037,21 +1037,3 @@ body.fullscreen-active {
 .content-grid { animation-delay: 0.2s; }
 .player-panel { animation-delay: 0.3s; }
 .social-bar { animation-delay: 0.4s; }
-
-/* /* 🔥 ЭКСТРЕННОЕ ЦЕНТРИРОВАНИЕ - ПЕРЕБИВАЕТ ВСЁ */
-body > .app-container {
-  position: relative !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
-/* Если JavaScript добавляет классы - сбрасываем их */
-body.loaded .app-container,
-body.initialized .app-container,
-body.ready .app-container {
-  margin: 0 auto !important;
-  left: 0 !important;
-  transform: none !important;
-} */
