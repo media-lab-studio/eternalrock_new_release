@@ -154,28 +154,54 @@ body {
    📐 MAIN CONTAINER (100vh layout)
    ============================================ */
 /* ===== .app-container: GRID + ЖЁСТКОЕ ЦЕНТРИРОВАНИЕ ===== */
+/* 🔥 ЦЕНТРИРОВАНИЕ ВНУТРЕННИХ ЭЛЕМЕНТОВ В СЕТКЕ */
 .app-container {
-  display: grid !important;
-  grid-template-rows: auto 1fr auto auto !important;
-  grid-template-areas: "header" "content" "player" "social" !important;
+  /* ... ваши существующие стили ... */
   
-  height: 100vh !important;
-  width: 100% !important;
-  max-width: 1400px !important;
+  /* ✅ ДОБАВЬТЕ ЭТО: */
+  justify-items: center !important;  /* Центрирует грид-элементы по горизонтали */
+}
+
+/* ✅ Центрируем содержимое секций */
+.app-header,
+.content-grid,
+.player-panel,
+.social-bar {
+  width: 100%;
+  max-width: 1400px;  /* Ограничиваем ширину контента */
+  margin: 0 auto;     /* Центрируем внутри родителя */
+}
+
+/* ✅ Особая обработка для header (space-between ломает центрирование) */
+.app-header {
+  justify-content: center !important;  /* Было: space-between */
+  gap: var(--spacing-md);              /* Добавляем отступ вместо растягивания */
+}
+
+/* ✅ Возвращаем правильное выравнивание для brand и кнопки */
+.header-brand {
+  text-align: center;
+}
+
+.btn-download {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ✅ Для content-grid: центрируем колонки */
+.content-grid {
+  justify-items: center;  /* Центрирует элементы внутри грида */
+}
+
+/* ✅ Адаптив: на мобильных всё на всю ширину */
+@media (max-width: 1024px) {
+  .app-header {
+    justify-content: center !important;
+  }
   
-  /* 🔥 Центрирование */
-  margin: 0 auto !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  
-  padding: var(--spacing-md) !important;
-  gap: var(--spacing-sm) !important;
-  position: relative !important;
-  z-index: 1 !important;
-  
-  left: auto !important;
-  right: auto !important;
-  transform: none !important;
+  .content-grid {
+    justify-items: stretch;  /* На мобильных растягиваем */
+  }
 }
 
 /* ============================================
