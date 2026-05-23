@@ -1037,3 +1037,22 @@ body.fullscreen-active {
 .content-grid { animation-delay: 0.2s; }
 .player-panel { animation-delay: 0.3s; }
 .social-bar { animation-delay: 0.4s; }
+
+/* 🔥 ЗАПРЕТ НА ИЗМЕНЕНИЕ ПОЗИЦИОНИРОВАНИЯ ЧЕРЕЗ JS */
+body,
+.app-container {
+  transform: none !important;
+  left: auto !important;
+  right: auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Если анимация всё же нужна — применяйте к внутренним элементам */
+.app-header,
+.content-grid,
+.player-panel,
+.social-bar {
+  animation: fadeInUp 0.4s ease forwards;
+  /* Но не применяем transform к самому .app-container */
+}
