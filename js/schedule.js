@@ -1,6 +1,6 @@
 /**
  * Schedule Module - EternalRock
- * Handles broadcast schedule rendering and live highlighting
+ * Clean exports, no conflicts
  */
 
 // ===== SCHEDULE DATA =====
@@ -21,242 +21,162 @@ export const SCHEDULE = [
 ];
 
 // ===== STATE =====
-let scheduleState = {
-  currentProgramId: null,
-  updateInterval: null,
-};
+let _currentProgramId = null;
+let _updateInterval = null;
 
 // ===== DOM CACHE =====
-let DOM = {
-  list: null,
-  currentTime: null,
-};
+let _dom = { list: null, currentTime: null };
 
 /**
  * Initialize schedule module
- * @param {Object} selectors - DOM element selectors
  */
 export function initSchedule(selectors = {}) {
-  DOM.list = document.querySelector(selectors.list || '#scheduleList');
-  DOM.currentTime = document.querySelector(selectors.currentTime || '#currentTime');
+  _dom.list = document.querySelector(selectors.list || '#scheduleList');
+  _dom.currentTime = document.querySelector(selectors.currentTime || '#currentTime');
   
-  if (!DOM.list) {
+  if (!_dom.list) {
     console.warn('⚠️ Schedule list container not found');
     return;
   }
   
-  renderSchedule();
-  startAutoUpdates();
-  
+  _renderSchedule();
+  _startAutoUpdates();
   console.log('📅 Schedule module initialized');
-  return scheduleAPI;
 }
 
 /**
- * Render schedule items to DOM
+ * Render schedule items
  */
-function renderSchedule() {
-  if (!DOM.list) return;
-  
-  DOM.list.innerHTML = '';
+function _renderSchedule() {
+  if (!_dom.list) return;
+  _dom.list.innerHTML = '';
   
   SCHEDULE.forEach((item, index) => {
     const li = document.createElement('li');
     li.className = 'schedule-item';
     li.dataset.id = item.id;
     li.dataset.index = index;
-    li.innerHTML = `
-      <span class="time">${item.time}</span>
-      <span class="program">${item.program}</span>
-    `;
-    DOM.list.appendChild(li);
+    li.innerHTML = `<span class="time">${item.time}</span><span class="program">${item.program}</span>`;
+    _dom.list.appendChild(li);
   });
 }
 
 /**
- * Parse time string "HH:MM" to minutes since midnight
- * @param {string} timeStr - Time in "HH:MM" format
- * @returns {number} Minutes since midnight
+ * Parse "HH:MM" to minutes
  */
-function parseTime(timeStr) {
-  const [hours, minutes] = timeStr.trim().split(':').map(Number);
-  return hours * 60 + minutes;
+function _parseTime(timeStr) {
+  const [h, m] = timeStr.trim().split(':').map(Number);
+  return h * 60 + m;
 }
 
 /**
- * Check if current time falls within a time range
- * Handles overnight ranges (e.g., 23:00 – 08:00)
- * @param {number} currentMinutes - Current time in minutes
- * @param {number} startMinutes - Start time in minutes
- * @param {number} endMinutes - End time in minutes
- * @returns {boolean}
+ * Check if time is in range (handles overnight)
  */
-function isTimeInRange(currentMinutes, startMinutes, endMinutes) {
-  // Overnight range (e.g., 23:00 – 08:00)
-  if (endMinutes < startMinutes) {
-    return currentMinutes >= startMinutes || currentMinutes < endMinutes;
-  }
-  // Normal range
-  return currentMinutes >= startMinutes && currentMinutes < endMinutes;
+function _isTimeInRange(current, start, end) {
+  if (end < start) return current >= start || current < end;
+  return current >= start && current < end;
 }
 
 /**
- * Highlight the currently active program
+ * Highlight current program
  */
 export function highlightCurrentProgram() {
   const now = new Date();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
   
-  let foundActive = false;
-  
   document.querySelectorAll('.schedule-item').forEach(item => {
-    const timeText = item.querySelector('.time')?.textContent;
-    if (!timeText) return;
+    const timeEl = item.querySelector('.time');
+    if (!timeEl) return;
     
-    const [startStr, endStr] = timeText.split('–');
-    const startMinutes = parseTime(startStr);
-    const endMinutes = parseTime(endStr);
-    
-    const isActive = isTimeInRange(currentMinutes, startMinutes, endMinutes);
+    const [startStr, endStr] = timeEl.textContent.split('–');
+    const start = _parseTime(startStr);
+    const end = _parseTime(endStr);
+    const isActive = _isTimeInRange(currentMinutes, start, end);
     
     item.classList.toggle('active', isActive);
     
-    // Manage LIVE badge
     const programEl = item.querySelector('.program');
-    const existingBadge = programEl?.querySelector('.live-badge');
+    if (!programEl) return;
     
+    const badge = programEl.querySelector('.live-badge');
     if (isActive) {
-      foundActive = true;
-      scheduleState.currentProgramId = item.dataset.id;
-      
-      if (programEl && !existingBadge) {
-        const badge = document.createElement('span');
-        badge.className = 'live-badge';
-        badge.textContent = 'LIVE';
-        badge.setAttribute('aria-label', 'Сейчас в эфире');
-        programEl.appendChild(badge);
+      _currentProgramId = item.dataset.id;
+      if (!badge) {
+        const b = document.createElement('span');
+        b.className = 'live-badge';
+        b.textContent = 'LIVE';
+        programEl.appendChild(b);
       }
-    } else if (existingBadge) {
-      existingBadge.remove();
+    } else if (badge) {
+      badge.remove();
     }
   });
   
-  // Fallback: если ничего не найдено (крайний случай)
-  if (!foundActive) {
-    scheduleState.currentProgramId = null;
-  }
-  
-  return scheduleState.currentProgramId;
+  return _currentProgramId;
 }
 
 /**
- * Update the displayed current time
+ * Update displayed time
  */
 export function updateCurrentTime() {
-  if (!DOM.currentTime) return;
-  
+  if (!_dom.currentTime) return;
   const now = new Date();
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  
-  DOM.currentTime.textContent = `${hours}:${minutes}`;
-  DOM.currentTime.setAttribute('datetime', now.toISOString());
-  
-  // Optional: add visual pulse on minute change
-  DOM.currentTime.classList.add('time-update');
-  setTimeout(() => DOM.currentTime.classList.remove('time-update'), 300);
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  _dom.currentTime.textContent = `${h}:${m}`;
+  _dom.currentTime.setAttribute('datetime', now.toISOString());
 }
 
 /**
- * Start automatic updates for time and schedule highlighting
+ * Start auto-updates
  */
-function startAutoUpdates() {
-  // Update time every minute
+function _startAutoUpdates() {
   updateCurrentTime();
-  scheduleState.updateInterval = setInterval(() => {
+  highlightCurrentProgram();
+  if (_updateInterval) clearInterval(_updateInterval);
+  _updateInterval = setInterval(() => {
     updateCurrentTime();
     highlightCurrentProgram();
   }, 60000);
-  
-  // Initial highlight
-  highlightCurrentProgram();
 }
 
 /**
- * Stop automatic updates (cleanup)
+ * Stop auto-updates (cleanup)
  */
 export function stopAutoUpdates() {
-  if (scheduleState.updateInterval) {
-    clearInterval(scheduleState.updateInterval);
-    scheduleState.updateInterval = null;
-    console.log('⏹️ Schedule auto-updates stopped');
+  if (_updateInterval) {
+    clearInterval(_updateInterval);
+    _updateInterval = null;
   }
 }
 
 /**
- * Get the currently active program info
- * @returns {Object|null} Program data or null
+ * Get current program info
  */
 export function getCurrentProgram() {
-  if (!scheduleState.currentProgramId) return null;
-  
-  return SCHEDULE.find(item => item.id === scheduleState.currentProgramId) || null;
+  if (!_currentProgramId) return null;
+  return SCHEDULE.find(item => item.id === _currentProgramId) || null;
 }
 
 /**
- * Get program by time (for testing/debugging)
- * @param {string} timeStr - Time in "HH:MM" format
- * @returns {Object|null}
+ * Get program at specific time (for testing)
  */
 export function getProgramAtTime(timeStr) {
-  const minutes = parseTime(timeStr);
-  
+  const minutes = _parseTime(timeStr);
   for (const item of SCHEDULE) {
-    const [startStr, endStr] = item.time.split('–');
-    const startMinutes = parseTime(startStr);
-    const endMinutes = parseTime(endStr);
-    
-    if (isTimeInRange(minutes, startMinutes, endMinutes)) {
-      return item;
-    }
+    const [s, e] = item.time.split('–');
+    if (_isTimeInRange(minutes, _parseTime(s), _parseTime(e))) return item;
   }
   return null;
 }
 
-/**
- * Public API for external use
- */
-// ... весь код модуля ...
-
-// ===== ПУБЛИЧНЫЙ API =====
-const scheduleAPI = {
-  init: initSchedule,
-  highlight: highlightCurrentProgram,
-  updateTime: updateCurrentTime,
-  stop: stopAutoUpdates,
-  getCurrent: getCurrentProgram,
-  getAtTime: getProgramAtTime,
-  SCHEDULE,
-};
-
-// ===== EXPORTS =====
+// ✅ ТОЛЬКО ОДИН БЛОК ЭКСПОРТОВ (в самом конце файла)
 export {
   initSchedule,
   highlightCurrentProgram,
   updateCurrentTime,
-  stopAutoUpdates as stopScheduleUpdates,  
+  stopAutoUpdates,
   getCurrentProgram,
   getProgramAtTime,
   SCHEDULE,
 };
-
-export default scheduleAPI;
-
-// Auto-init if script is loaded directly (non-module fallback)
-if (typeof document !== 'undefined' && !import.meta?.url) {
-  document.addEventListener('DOMContentLoaded', () => {
-    initSchedule();
-  });
-}
-
-export default scheduleAPI;
