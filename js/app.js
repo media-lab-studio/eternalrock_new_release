@@ -375,6 +375,24 @@ async function init() {
 if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
 else init();
 
+// 🔥 ЯДЕРНЫЙ ФИКС ЦЕНТРИРОВАНИЯ (запускается после полной загрузки)
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const body = document.body;
+    const container = document.querySelector('.app-container');
+    
+    if (body && container) {
+      // Форсируем стили через inline + !important
+      body.style.setProperty('width', '100vw', 'important');
+      body.style.setProperty('max-width', 'none', 'important');
+      container.style.setProperty('margin-left', 'auto', 'important');
+      container.style.setProperty('margin-right', 'auto', 'important');
+      
+      console.log('🔧 Force-centering applied via JS');
+    }
+  }, 100);
+});
+
 // ===== CSS ANIMATIONS =====
 if(!document.getElementById('eternalrock-styles')) {
   const style = document.createElement('style');
