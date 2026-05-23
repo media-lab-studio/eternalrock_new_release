@@ -4,12 +4,11 @@
  */
 
 // ===== IMPORTS =====
-// ✅ Исправленный импорт с правильным alias
 import { 
   initSchedule, 
   highlightCurrentProgram, 
   updateCurrentTime,
-  stopAutoUpdates as stopScheduleUpdates, 
+  stopAutoUpdates,      
   getCurrentProgram,
   SCHEDULE 
 } from './schedule.js';
