@@ -226,14 +226,31 @@ export function getProgramAtTime(timeStr) {
 /**
  * Public API for external use
  */
+// ... весь код модуля ...
+
+// ===== ПУБЛИЧНЫЙ API =====
 const scheduleAPI = {
+  init: initSchedule,
+  highlight: highlightCurrentProgram,
+  updateTime: updateCurrentTime,
+  stop: stopAutoUpdates,
+  getCurrent: getCurrentProgram,
+  getAtTime: getProgramAtTime,
+  SCHEDULE,
+};
+
+// ===== EXPORTS =====
+export {
+  initSchedule,
   highlightCurrentProgram,
   updateCurrentTime,
-  stopAutoUpdates,
+  stopAutoUpdates as stopScheduleUpdates,  
   getCurrentProgram,
   getProgramAtTime,
   SCHEDULE,
 };
+
+export default scheduleAPI;
 
 // Auto-init if script is loaded directly (non-module fallback)
 if (typeof document !== 'undefined' && !import.meta?.url) {
