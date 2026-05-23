@@ -13,20 +13,16 @@
   --color-text: #ffffff;
   --color-text-muted: rgba(255, 255, 255, 0.7);
   --color-border: rgba(255, 94, 0, 0.25);
-
+  
   /* Тени и свечение */
   --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
   --shadow-glow: 0 0 30px var(--color-primary-glow);
   --glow-primary: 0 0 20px var(--color-primary-glow);
-
+  
   /* Градиенты */
   --gradient-primary: linear-gradient(135deg, #ff5e00, #ff9d5c);
-  --gradient-glow: radial-gradient(
-    ellipse at center,
-    rgba(255, 94, 0, 0.15) 0%,
-    transparent 70%
-  );
-
+  --gradient-glow: radial-gradient(ellipse at center, rgba(255,94,0,0.15) 0%, transparent 70%);
+  
   /* Размеры и отступы */
   --radius-lg: 24px;
   --radius-md: 16px;
@@ -35,23 +31,33 @@
   --spacing-sm: 12px;
   --spacing-md: 20px;
   --spacing-lg: 28px;
-
+  
   /* Анимации */
   --transition-fast: 150ms ease;
   --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
-
+  
   /* Шрифты */
   --font-display: "Orbitron", system-ui, sans-serif;
   --font-body: "Montserrat", system-ui, sans-serif;
 }
 
-*,
-*::before,
-*::after {
+/* ============================================
+   🌍 GLOBAL RESET & CENTERING FIX
+   ============================================ */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  max-width: 100%;
 }
 
 html {
@@ -64,7 +70,14 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.5;
-  overflow: hidden; /* 🔥 Ключевое: без прокрутки */
+  
+  /* 🔥 ЦЕНТРИРОВАНИЕ КОНТЕНТА */
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  
   height: 100vh;
   width: 100vw;
 }
@@ -83,16 +96,8 @@ body {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(
-      ellipse at 20% 80%,
-      rgba(123, 97, 255, 0.15) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at 80% 20%,
-      rgba(255, 94, 0, 0.12) 0%,
-      transparent 50%
-    ),
+    radial-gradient(ellipse at 20% 80%, rgba(123, 97, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 94, 0, 0.12) 0%, transparent 50%),
     linear-gradient(180deg, var(--color-bg) 0%, #0d0d1a 100%);
 }
 
@@ -100,11 +105,7 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(
-      1px 1px at 20px 30px,
-      rgba(255, 255, 255, 0.1),
-      transparent
-    ),
+    radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.1), transparent),
     radial-gradient(1px 1px at 60px 80px, rgba(255, 94, 0, 0.15), transparent),
     radial-gradient(1px 1px at 120px 40px, rgba(123, 97, 255, 0.1), transparent);
   background-size: 200px 200px;
@@ -113,28 +114,14 @@ body {
 }
 
 @keyframes particlesMove {
-  0% {
-    background-position:
-      0 0,
-      0 0,
-      0 0;
-  }
-  100% {
-    background-position:
-      200px 200px,
-      150px 100px,
-      80px 150px;
-  }
+  0% { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 200px 200px, 150px 100px, 80px 150px; }
 }
 
 .bg-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 40%,
-    rgba(10, 10, 18, 0.9) 100%
-  );
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(10, 10, 18, 0.9) 100%);
 }
 
 /* ============================================
@@ -148,13 +135,18 @@ body {
     "content"
     "player"
     "social";
+  
   height: 100vh;
+  width: 100%;
   max-width: 1400px;
+  
   margin: 0 auto;
   padding: var(--spacing-md);
   gap: var(--spacing-sm);
+  
   position: relative;
   z-index: 1;
+  justify-self: center;
 }
 
 /* ============================================
@@ -243,12 +235,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transform: translateX(-100%);
   transition: transform 0.6s ease;
 }
@@ -274,7 +261,7 @@ body {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: var(--spacing-md);
-  min-height: 0; /* 🔥 Важно для вложенного скролла */
+  min-height: 0;
 }
 
 /* ---------- СЛАЙДЕР ---------- */
@@ -352,12 +339,8 @@ body {
   transform: translateY(-50%) scale(1.05);
 }
 
-.slider-btn.prev {
-  left: 16px;
-}
-.slider-btn.next {
-  right: 16px;
-}
+.slider-btn.prev { left: 16px; }
+.slider-btn.next { right: 16px; }
 
 .slider-indicators {
   position: absolute;
@@ -517,26 +500,14 @@ body {
 }
 
 @keyframes pulse {
-  0%,
-  100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
 }
 
 /* Кастомный скроллбар */
-.schedule-scroll::-webkit-scrollbar {
-  width: 6px;
-}
-.schedule-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-.schedule-scroll::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: 3px;
-}
+.schedule-scroll::-webkit-scrollbar { width: 6px; }
+.schedule-scroll::-webkit-scrollbar-track { background: transparent; }
+.schedule-scroll::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; }
 
 /* ============================================
    🎵 PLAYER PANEL
@@ -590,9 +561,7 @@ body {
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .vinyl-disc {
@@ -600,18 +569,8 @@ body {
   inset: 8px;
   border-radius: 50%;
   background:
-    radial-gradient(
-      circle at 30% 30%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 20%
-    ),
-    repeating-radial-gradient(
-      circle at center,
-      transparent 0,
-      transparent 2px,
-      rgba(255, 255, 255, 0.03) 2px,
-      rgba(255, 255, 255, 0.03) 3px
-    );
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+    repeating-radial-gradient(circle at center, transparent 0, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 3px);
 }
 
 .vinyl-label {
@@ -643,27 +602,18 @@ body {
   transition: var(--transition-fast);
 }
 
-.vinyl-btn:hover .play-overlay {
-  opacity: 1;
-}
+.vinyl-btn:hover .play-overlay { opacity: 1; }
 
-.play-icon,
-.pause-icon {
+.play-icon, .pause-icon {
   position: absolute;
   font-size: 1.5rem;
   color: white;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-.pause-icon {
-  display: none;
-}
-.vinyl-btn.playing .play-icon {
-  display: none;
-}
-.vinyl-btn.playing .pause-icon {
-  display: block;
-}
+.pause-icon { display: none; }
+.vinyl-btn.playing .play-icon { display: none; }
+.vinyl-btn.playing .pause-icon { display: block; }
 
 /* ----- Track Info ----- */
 .player-center {
@@ -676,8 +626,7 @@ body {
   gap: 6px;
 }
 
-.track-now,
-.track-next {
+.track-now, .track-next {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -710,12 +659,8 @@ body {
 }
 
 @keyframes marquee {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }
 
 .track-name {
@@ -933,12 +878,8 @@ body {
     padding: 12px;
   }
 
-  .player-left {
-    grid-area: vinyl;
-  }
-  .player-center {
-    grid-area: info;
-  }
+  .player-left { grid-area: vinyl; }
+  .player-center { grid-area: info; }
   .player-right {
     grid-area: controls;
     flex-direction: row;
@@ -990,8 +931,7 @@ body {
     font-size: 0.75rem;
   }
 
-  .marquee-text,
-  .track-name {
+  .marquee-text, .track-name {
     font-size: 0.9rem;
   }
 
@@ -1012,9 +952,7 @@ body {
    ♿ ACCESSIBILITY & PREFERENCES
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -1066,7 +1004,7 @@ body.fullscreen-active {
 }
 
 .slider-wrapper.fullscreen .slider-fullscreen i::before {
-  content: "\f066"; /* fa-compress */
+  content: "\f066";
 }
 
 /* Анимация появления */
@@ -1081,22 +1019,11 @@ body.fullscreen-active {
   }
 }
 
-.app-header,
-.content-grid,
-.player-panel,
-.social-bar {
+.app-header, .content-grid, .player-panel, .social-bar {
   animation: fadeInUp 0.4s ease forwards;
 }
 
-.app-header {
-  animation-delay: 0.1s;
-}
-.content-grid {
-  animation-delay: 0.2s;
-}
-.player-panel {
-  animation-delay: 0.3s;
-}
-.social-bar {
-  animation-delay: 0.4s;
-}
+.app-header { animation-delay: 0.1s; }
+.content-grid { animation-delay: 0.2s; }
+.player-panel { animation-delay: 0.3s; }
+.social-bar { animation-delay: 0.4s; }
