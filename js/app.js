@@ -1,3 +1,31 @@
+// 🔍 МОНИТОРИНГ: кто меняет стили body/app-container?
+(function monitorStyles() {
+  const targets = [document.body, document.querySelector('.app-container')].filter(Boolean);
+  
+  targets.forEach(target => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach(m => {
+        if (m.attributeName === 'style' || m.attributeName === 'class') {
+          console.warn('⚠️ Style changed on', target.tagName + '.' + target.className, {
+            attribute: m.attributeName,
+            oldValue: m.oldValue,
+            newValue: target.getAttribute('style') || target.className,
+            stack: new Error().stack
+          });
+        }
+      });
+    });
+    
+    observer.observe(target, {
+      attributes: true,
+      attributeFilter: ['style', 'class'],
+      attributeOldValue: true
+    });
+  });
+  
+  console.log('🔍 Style monitoring active');
+})();
+
 /**
  * EternalRock — Modern Player Application
  * ES6 Modules Version for GitHub Pages
