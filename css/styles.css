@@ -71,15 +71,20 @@ body {
   color: var(--color-text);
   line-height: 1.5;
   
-  /* 🔥 ЦЕНТРИРОВАНИЕ КОНТЕНТА */
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  /* 🔥 ЖЁСТКОЕ ЦЕНТРИРОВАНИЕ С !IMPORTANT */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
   
   height: 100vh;
   width: 100vw;
+  
+  /* 🔥 СБРОС ВСЕХ ОТСТУПОВ */
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* ============================================
@@ -137,16 +142,21 @@ body {
     "social";
   
   height: 100vh;
-  width: 100%;
+  width: 100% !important;
   max-width: 1400px;
   
-  margin: 0 auto;
+  /* 🔥 ЦЕНТРИРОВАНИЕ */
+  margin: 0 auto !important;
   padding: var(--spacing-md);
   gap: var(--spacing-sm);
   
   position: relative;
   z-index: 1;
-  justify-self: center;
+  
+  /* 🔥 ЗАПРЕТ НА СМЕЩЕНИЕ */
+  left: 0 !important;
+  right: 0 !important;
+  transform: none !important;
 }
 
 /* ============================================
@@ -1027,3 +1037,21 @@ body.fullscreen-active {
 .content-grid { animation-delay: 0.2s; }
 .player-panel { animation-delay: 0.3s; }
 .social-bar { animation-delay: 0.4s; }
+
+/* /* 🔥 ЭКСТРЕННОЕ ЦЕНТРИРОВАНИЕ - ПЕРЕБИВАЕТ ВСЁ */
+body > .app-container {
+  position: relative !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Если JavaScript добавляет классы - сбрасываем их */
+body.loaded .app-container,
+body.initialized .app-container,
+body.ready .app-container {
+  margin: 0 auto !important;
+  left: 0 !important;
+  transform: none !important;
+} */
