@@ -852,11 +852,6 @@ body {
     --spacing-sm: 10px;
   }
 
-  .app-container {
-    padding: var(--spacing-sm);
-    gap: 8px;
-  }
-
   .app-header {
     flex-direction: column;
     gap: 12px;
