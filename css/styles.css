@@ -45,14 +45,22 @@
 /* ============================================
    🌍 GLOBAL RESET & CENTERING FIX
    ============================================ */
-html, body {
+/* ============================================
+   🌍 GLOBAL RESET — ЕДИНЫЙ БЛОК ДЛЯ BODY
+   ============================================ */
+
+/* Сброс для html */
+html {
   margin: 0 !important;
   padding: 0 !important;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
+  width: 100% !important;
+  max-width: none !important;  /* ← Ключевое: отменяем ограничение */
+  overflow-x: hidden !important;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
+/* Сброс для всех элементов */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -60,13 +68,7 @@ html, body {
   max-width: 100%;
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
-
-/* ===== BODY: ТОЛЬКО FLEX-ЦЕНТРИРОВАНИЕ ===== */
-/* ===== BODY: ФИКСИРОВАННЫЙ НА ВЕСЬ ЭКРАН ===== */
+/* ===== BODY: ФИКСИРОВАННЫЙ НА ВЕСЬ ВИЬЮПОРТ ===== */
 body {
   font-family: var(--font-body);
   background-color: var(--color-bg);
@@ -78,18 +80,22 @@ body {
   justify-content: center !important;
   align-items: stretch !important;
   
-  /* 🔥 ЖЁСТКАЯ ФИКСАЦИЯ НА ВЕСЬ ВИЬЮПОРТ */
+  /* 🔥 Жёсткая фиксация на весь экран */
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
+  
+  /* 🔥 Размеры без ограничений */
   width: 100vw !important;
   min-width: 100vw !important;
+  max-width: none !important;  /* ← ОТМЕНЯЕМ любое max-width */
   height: 100vh !important;
   min-height: 100vh !important;
+  max-height: none !important;
   
-  /* 🔥 Блокировка сжатия */
+  /* 🔥 Запрет на сжатие/растяжение */
   flex-shrink: 0 !important;
   flex-grow: 0 !important;
   
@@ -97,7 +103,7 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   
-  /* 🔥 Запрет на трансформации */
+  /* 🔥 Запрет трансформаций */
   transform: none !important;
   translate: none !important;
 }
@@ -157,7 +163,7 @@ body {
   width: 100% !important;
   max-width: 1400px !important;
   
-  /* 🔥 Центрирование внутри flex-родителя */
+  /* 🔥 Центрирование */
   margin: 0 auto !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -1050,17 +1056,3 @@ body.fullscreen-active {
 .content-grid { animation-delay: 0.2s; }
 .player-panel { animation-delay: 0.3s; }
 .social-bar { animation-delay: 0.4s; }
-
-/* 🔥 ГАРАНТИРОВАННОЕ ЦЕНТРИРОВАНИЕ */
-body > .app-container {
-  margin-left: auto !important;
-  margin-right: auto !important;
-  /* Но НЕ margin: 0 auto — только по сторонам */
-}
-
-/* Если вдруг добавляется класс — сбрасываем */
-body.loaded .app-container,
-body.js-ready .app-container {
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
