@@ -20,33 +20,34 @@ function generateSlides() {
   let i = 1;
   let totalSlides = 0;
   
-  function loadNextSlide() {
+  function tryLoadSlide() {
     const img = new Image();
     img.onload = () => {
-      // Создаем слайд
+      // Слайд существует - создаем его
       const slideDiv = document.createElement("div");
-      slideDiv.className = `slide ${i === 1 ? "active" : ""}`;
+      slideDiv.className = `slide ${totalSlides === 0 ? "active" : ""}`;
       img.alt = altTexts[i] || "Audience";
       img.loading = "lazy";
       slideDiv.appendChild(img);
       slidesContainer.appendChild(slideDiv);
 
-      // Создаем индикатор для каждого слайда
+      // Создаем индикатор
       const indicator = document.createElement("span");
-      indicator.className = `indicator ${i === 1 ? "active" : ""}`;
+      indicator.className = `indicator ${totalSlides === 0 ? "active" : ""}`;
       indicatorsContainer.appendChild(indicator);
       
-      totalSlides = i;
+      totalSlides++;
       i++;
-      loadNextSlide(); // Загружаем следующий
+      tryLoadSlide(); // Пробуем следующий
     };
     
     img.onerror = () => {
+      // Слайд не существует - останавливаемся
       console.log(`✅ Сгенерировано ${totalSlides} слайдов`);
     };
     
     img.src = `img/slides/slide${i}.jpg`;
   }
   
-  loadNextSlide();
+  tryLoadSlide();
 }
