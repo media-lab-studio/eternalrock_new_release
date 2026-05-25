@@ -604,6 +604,12 @@ body::after {
     animation: marquee 18s linear infinite;
     font-weight: 500;
     font-size: 0.95rem;
+    color: #ffffff;  /* Явно белый цвет */
+}
+
+/* Дополнительно для текста внутри бегущей строки */
+#currentTrackText {
+    color: #ffffff;
 }
 
 .next-track-static {
@@ -615,6 +621,7 @@ body::after {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: rgba(255, 255, 255, 0.9);  /* Светло-серый/белый */
 }
 
 @keyframes marquee {
