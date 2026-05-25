@@ -340,6 +340,40 @@ function changeVolume(delta) {
   updateVolumeDisplay(newVol * 100);
 }
 
+// После всех инициализаций
+function fixMyRadioConflict() {
+  // Удаляем конфликтные стили с body
+  document.body.removeAttribute('style');
+  document.body.style.position = 'fixed';
+  document.body.style.top = '0';
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  document.body.style.bottom = '0';
+  document.body.style.width = '100%';
+  document.body.style.margin = '0';
+  document.body.style.padding = '0';
+  
+  // Удаляем возможные левые отступы у контейнера
+  const container = document.querySelector('.app-container');
+  if (container) {
+    container.style.margin = '0 auto';
+    container.style.left = 'auto';
+    container.style.right = 'auto';
+  }
+  
+  // Скрываем лишние div'ы от myradio24
+  const myradioDivs = document.querySelectorAll('div[style*="position: absolute"][style*="z-index"]');
+  myradioDivs.forEach(div => {
+    if (div.innerHTML === '' || div.children.length === 0) {
+      div.remove();
+    }
+  });
+}
+
+// Вызываем через небольшую задержку после загрузки
+setTimeout(fixMyRadioConflict, 200);
+setTimeout(fixMyRadioConflict, 1000); // Дополнительно через секунду
+
 // ===== FULLSCREEN =====
 function toggleFullscreen() {
   if (!DOM.slider.wrapper) return;
