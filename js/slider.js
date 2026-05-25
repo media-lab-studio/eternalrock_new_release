@@ -19,10 +19,14 @@ function generateSlides() {
 
   let i = 1;
   let totalSlides = 0;
+  let stop = false; // Флаг остановки
   
   function tryLoadSlide() {
+    if (stop) return; // Если остановили - выходим
+    
     const img = new Image();
     img.onload = () => {
+      if (stop) return;
       // Слайд существует - создаем его
       const slideDiv = document.createElement("div");
       slideDiv.className = `slide ${totalSlides === 0 ? "active" : ""}`;
@@ -42,7 +46,8 @@ function generateSlides() {
     };
     
     img.onerror = () => {
-      // Слайд не существует - останавливаемся
+      // Слайд не существует - останавливаемся навсегда
+      stop = true;
       console.log(`✅ Сгенерировано ${totalSlides} слайдов`);
     };
     
