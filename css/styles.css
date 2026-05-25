@@ -38,28 +38,19 @@
   --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
   
   /* Шрифты */
-  --font-display: "Orbitron", system-ui, sans-serif;
-  --font-body: "Montserrat", system-ui, sans-serif;
-}
-
-/* ============================================
-   🌍 GLOBAL RESET
-   ============================================ */
-html {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: none !important;
-  overflow-x: hidden !important;
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
+  --font-display: 'Orbitron', system-ui, sans-serif;
+  --font-body: 'Montserrat', system-ui, sans-serif;
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  max-width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -67,35 +58,9 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.5;
-  
-  /* 🔥 Flex-центрирование контейнера */
-  display: flex !important;
-  justify-content: center !important;
-  align-items: stretch !important;
-  
-  /* 🔥 Фиксация на весь экран */
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  
-  width: 100vw !important;
-  min-width: 100vw !important;
-  max-width: none !important;
-  height: 100vh !important;
-  min-height: 100vh !important;
-  max-height: none !important;
-  
-  flex-shrink: 0 !important;
-  flex-grow: 0 !important;
-  
-  overflow: hidden !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  
-  transform: none !important;
-  translate: none !important;
+  overflow: hidden; /* 🔥 Ключевое: без прокрутки */
+  height: 100vh;
+  width: 100vw;
 }
 
 /* ============================================
@@ -111,7 +76,7 @@ body {
 .bg-gradient {
   position: absolute;
   inset: 0;
-  background:
+  background: 
     radial-gradient(ellipse at 20% 80%, rgba(123, 97, 255, 0.15) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 20%, rgba(255, 94, 0, 0.12) 0%, transparent 50%),
     linear-gradient(180deg, var(--color-bg) 0%, #0d0d1a 100%);
@@ -120,10 +85,10 @@ body {
 .bg-particles {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.1), transparent),
-    radial-gradient(1px 1px at 60px 80px, rgba(255, 94, 0, 0.15), transparent),
-    radial-gradient(1px 1px at 120px 40px, rgba(123, 97, 255, 0.1), transparent);
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.1), transparent),
+    radial-gradient(1px 1px at 60px 80px, rgba(255,94,0,0.15), transparent),
+    radial-gradient(1px 1px at 120px 40px, rgba(123,97,255,0.1), transparent);
   background-size: 200px 200px;
   animation: particlesMove 60s linear infinite;
   opacity: 0.6;
@@ -137,52 +102,34 @@ body {
 .bg-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(10, 10, 18, 0.9) 100%);
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(10,10,18,0.9) 100%);
 }
 
 /* ============================================
-   📐 MAIN CONTAINER + GRID LAYOUT
+   📐 MAIN CONTAINER (100vh layout)
    ============================================ */
 .app-container {
-  display: grid !important;
+  display: grid;
   grid-template-rows: auto 1fr auto auto;
   grid-template-areas:
     "header"
     "content"
     "player"
     "social";
-  
-  grid-template-columns: 1fr;
-  
-  height: 100vh !important;
-  width: 100% !important;
-  max-width: 1400px !important;
-  
-  margin: 0 auto !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  
-  padding: var(--spacing-md) !important;
-  gap: var(--spacing-sm) !important;
-  
-  position: relative !important;
-  z-index: 1 !important;
-  
-  left: auto !important;
-  right: auto !important;
-  transform: none !important;
+  height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+  gap: var(--spacing-sm);
+  position: relative;
+  z-index: 1;
 }
-
-/* 🔥 КЛЮЧЕВОЕ: Размещение детей в грид-областях */
-.app-header   { grid-area: header !important; }
-.content-grid { grid-area: content !important; }
-.player-panel { grid-area: player !important; }
-.social-bar   { grid-area: social !important; }
 
 /* ============================================
    🏷️ HEADER
    ============================================ */
 .app-header {
+  grid-area: header;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -192,10 +139,6 @@ body {
   border: 1px solid var(--color-border);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-lg);
-  
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 .header-brand {
@@ -265,10 +208,10 @@ body {
 }
 
 .btn-download::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
   transform: translateX(-100%);
   transition: transform 0.6s ease;
 }
@@ -290,14 +233,11 @@ body {
    📊 CONTENT GRID
    ============================================ */
 .content-grid {
+  grid-area: content;
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: var(--spacing-md);
-  min-height: 0;
-  
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
+  min-height: 0; /* 🔥 Важно для вложенного скролла */
 }
 
 /* ---------- СЛАЙДЕР ---------- */
@@ -308,8 +248,6 @@ body {
   overflow: hidden;
   position: relative;
   box-shadow: var(--shadow-lg);
-  
-  width: 100%;
 }
 
 .slider-wrapper {
@@ -340,10 +278,10 @@ body {
 }
 
 .slide::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(10, 10, 18, 0.4), transparent 60%);
+  background: linear-gradient(to top, rgba(10,10,18,0.4), transparent 60%);
 }
 
 .slider-btn {
@@ -402,7 +340,7 @@ body {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255,255,255,0.3);
   cursor: pointer;
   transition: var(--transition-fast);
   border: 2px solid transparent;
@@ -447,8 +385,6 @@ body {
   flex-direction: column;
   overflow: hidden;
   box-shadow: var(--shadow-lg);
-  
-  width: 100%;
 }
 
 .schedule-header {
@@ -457,7 +393,7 @@ body {
   align-items: center;
   padding: var(--spacing-sm) var(--spacing-md);
   border-bottom: 1px solid var(--color-border);
-  background: rgba(255, 94, 0, 0.05);
+  background: rgba(255,94,0,0.05);
 }
 
 .schedule-header h2 {
@@ -473,7 +409,7 @@ body {
   font-family: var(--font-display);
   font-weight: 700;
   color: var(--color-secondary);
-  background: rgba(255, 94, 0, 0.15);
+  background: rgba(255,94,0,0.15);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -497,7 +433,7 @@ body {
   grid-template-columns: 90px 1fr;
   gap: 12px;
   padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255,255,255,0.03);
   border-radius: var(--radius-sm);
   border-left: 3px solid transparent;
   transition: var(--transition-fast);
@@ -505,12 +441,12 @@ body {
 }
 
 .schedule-item:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255,255,255,0.07);
   transform: translateX(4px);
 }
 
 .schedule-item.active {
-  background: rgba(255, 94, 0, 0.12);
+  background: rgba(255,94,0,0.12);
   border-left-color: var(--color-primary);
 }
 
@@ -545,14 +481,22 @@ body {
 }
 
 /* Кастомный скроллбар */
-.schedule-scroll::-webkit-scrollbar { width: 6px; }
-.schedule-scroll::-webkit-scrollbar-track { background: transparent; }
-.schedule-scroll::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; }
+.schedule-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.schedule-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.schedule-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 3px;
+}
 
 /* ============================================
    🎵 PLAYER PANEL
    ============================================ */
 .player-panel {
+  grid-area: player;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -563,10 +507,6 @@ body {
   border: 1px solid var(--color-border);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-lg);
-  
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 /* ----- Vinyl Button ----- */
@@ -586,17 +526,17 @@ body {
   display: grid;
   place-items: center;
   transition: var(--transition-normal);
-  box-shadow:
-    0 0 0 2px rgba(255, 94, 0, 0.2),
-    0 8px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    0 0 0 2px rgba(255,94,0,0.2),
+    0 8px 25px rgba(0,0,0,0.5);
   overflow: hidden;
 }
 
 .vinyl-btn:hover {
   transform: scale(1.05);
-  box-shadow:
-    0 0 0 3px rgba(255, 94, 0, 0.4),
-    0 12px 35px rgba(0, 0, 0, 0.6);
+  box-shadow: 
+    0 0 0 3px rgba(255,94,0,0.4),
+    0 12px 35px rgba(0,0,0,0.6);
 }
 
 .vinyl-btn.playing {
@@ -611,9 +551,9 @@ body {
   position: absolute;
   inset: 8px;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
-    repeating-radial-gradient(circle at center, transparent 0, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 3px);
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 20%),
+    repeating-radial-gradient(circle at center, transparent 0, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 3px);
 }
 
 .vinyl-label {
@@ -624,15 +564,15 @@ body {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  border: 2px solid rgba(255, 94, 0, 0.3);
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255,94,0,0.3);
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
 }
 
 .vinyl-icon {
   width: 70%;
   height: 70%;
   object-fit: contain;
-  filter: drop-shadow(0 0 5px rgba(255, 94, 0, 0.7));
+  filter: drop-shadow(0 0 5px rgba(255,94,0,0.7));
 }
 
 .play-overlay {
@@ -640,18 +580,20 @@ body {
   inset: 0;
   display: grid;
   place-items: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0,0,0,0.3);
   opacity: 0;
   transition: var(--transition-fast);
 }
 
-.vinyl-btn:hover .play-overlay { opacity: 1; }
+.vinyl-btn:hover .play-overlay {
+  opacity: 1;
+}
 
 .play-icon, .pause-icon {
   position: absolute;
   font-size: 1.5rem;
   color: white;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 .pause-icon { display: none; }
@@ -748,7 +690,7 @@ body {
   width: 100px;
   height: 4px;
   -webkit-appearance: none;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.1);
   border-radius: 2px;
   outline: none;
   cursor: pointer;
@@ -784,7 +726,7 @@ body {
   gap: 6px;
   font-size: 0.85rem;
   color: var(--color-text-muted);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255,255,255,0.05);
   padding: 6px 12px;
   border-radius: 20px;
   border: 1px solid var(--color-border);
@@ -798,14 +740,11 @@ body {
    🔗 SOCIAL BAR
    ============================================ */
 .social-bar {
+  grid-area: social;
   display: flex;
   justify-content: center;
   gap: var(--spacing-md);
   padding: 0 var(--spacing-md);
-  
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 .social-btn {
@@ -825,12 +764,12 @@ body {
 
 .social-btn.telegram {
   background: linear-gradient(135deg, #0088cc, #006699);
-  border-color: rgba(0, 136, 204, 0.3);
+  border-color: rgba(0,136,204,0.3);
 }
 
 .social-btn.donate {
   background: linear-gradient(135deg, #ff5e00, #cc4b00);
-  border-color: rgba(255, 94, 0, 0.3);
+  border-color: rgba(255,94,0,0.3);
 }
 
 .social-btn:hover {
@@ -852,11 +791,11 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
   }
-
+  
   .slider-section {
     min-height: 280px;
   }
-
+  
   .schedule-section {
     max-height: 200px;
   }
@@ -868,89 +807,89 @@ body {
     --spacing-md: 16px;
     --spacing-sm: 10px;
   }
-
+  
   .app-container {
     padding: var(--spacing-sm);
     gap: 8px;
   }
-
+  
   .app-header {
     flex-direction: column;
     gap: 12px;
     text-align: center;
     padding: 12px;
   }
-
+  
   .brand-title {
     font-size: 1.8rem;
   }
-
+  
   .btn-download {
     width: 100%;
     max-width: 280px;
     justify-content: center;
   }
-
+  
   .content-grid {
     gap: 10px;
   }
-
+  
   .slider-section {
     min-height: 220px;
   }
-
+  
   .slider-btn {
     width: 40px;
     height: 40px;
     font-size: 1rem;
   }
-
+  
   .schedule-header h2 {
     font-size: 1rem;
   }
-
+  
   .schedule-item {
     grid-template-columns: 75px 1fr;
     padding: 8px 12px;
     font-size: 0.9rem;
   }
-
+  
   .player-panel {
     grid-template-columns: auto 1fr;
-    grid-template-areas:
+    grid-template-areas: 
       "vinyl info"
       "vinyl controls";
     gap: 12px;
     padding: 12px;
   }
-
+  
   .player-left { grid-area: vinyl; }
   .player-center { grid-area: info; }
-  .player-right {
-    grid-area: controls;
+  .player-right { 
+    grid-area: controls; 
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
     width: 100%;
   }
-
+  
   .volume-control {
     gap: 6px;
   }
-
+  
   .volume-slider {
     width: 70px;
   }
-
+  
   .playlist-badge {
     display: none;
   }
-
+  
   .social-bar {
     flex-direction: column;
     gap: 10px;
   }
-
+  
   .social-btn {
     width: 100%;
     max-width: 280px;
@@ -963,32 +902,32 @@ body {
   .brand-title {
     font-size: 1.5rem;
   }
-
+  
   .brand-tagline {
     font-size: 0.9rem;
   }
-
+  
   .vinyl-btn {
     width: 60px;
     height: 60px;
   }
-
+  
   .track-label {
     font-size: 0.75rem;
   }
-
+  
   .marquee-text, .track-name {
     font-size: 0.9rem;
   }
-
+  
   .volume-slider {
     width: 50px;
   }
-
+  
   .schedule-item .time {
     font-size: 0.8rem;
   }
-
+  
   .schedule-item .program {
     font-size: 0.85rem;
   }
@@ -1003,7 +942,7 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-
+  
   .marquee-text {
     animation: none;
     position: static;
@@ -1050,7 +989,7 @@ body.fullscreen-active {
 }
 
 .slider-wrapper.fullscreen .slider-fullscreen i::before {
-  content: "\f066";
+  content: "\f066"; /* fa-compress */
 }
 
 /* Анимация появления */
@@ -1065,7 +1004,10 @@ body.fullscreen-active {
   }
 }
 
-.app-header, .content-grid, .player-panel, .social-bar {
+.app-header,
+.content-grid,
+.player-panel,
+.social-bar {
   animation: fadeInUp 0.4s ease forwards;
 }
 
