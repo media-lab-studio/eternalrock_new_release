@@ -1,23 +1,21 @@
 /* ===========================================
    СОВРЕМЕННЫЙ ДИЗАЙН EternalRock
+   ОРИГИНАЛЬНАЯ ЦВЕТОВАЯ СТИЛИСТИКА
    =========================================== */
 
 :root {
-    --accent-primary: #ff3a00;
-    --accent-secondary: #ff6b35;
-    --accent-glow: rgba(255, 58, 0, 0.4);
-    --bg-dark: #0a0a0f;
-    --bg-card: rgba(18, 18, 28, 0.75);
-    --glass-border: rgba(255, 58, 0, 0.25);
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
-    --text-muted: rgba(255, 255, 255, 0.5);
-    --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    --shadow-md: 0 10px 30px -8px rgba(0, 0, 0, 0.4);
-    --radius-lg: 28px;
-    --radius-md: 20px;
-    --radius-sm: 14px;
-    --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    --primary-color: #ff5e00;
+    --secondary-color: #ff9d5c;
+    --dark-bg: #0f0f19;
+    --darker-bg: #0a0a12;
+    --light-bg: rgba(255, 255, 255, 0.05);
+    --text-color: #fff;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    --border-color: rgba(255, 94, 0, 0.3);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --gradient: linear-gradient(135deg, #ff5e00 0%, #ff9d5c 100%);
+    --radius: 15px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -27,8 +25,8 @@
 }
 
 body {
-    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--bg-dark);
+    font-family: "Segoe UI", "Inter", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--dark-bg);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -38,21 +36,25 @@ body {
     overflow-x: hidden;
 }
 
-/* Динамический фон */
+/* Динамический фон с оригинальным изображением */
 body::before {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 30% 20%, rgba(255, 58, 0, 0.15), transparent 70%),
-                repeating-linear-gradient(45deg, rgba(255, 58, 0, 0.02) 0px, rgba(255, 58, 0, 0.02) 2px, transparent 2px, transparent 10px);
+    background: linear-gradient(
+        135deg,
+        rgba(26, 26, 46, 0.92) 0%,
+        rgba(22, 33, 62, 0.92) 50%,
+        rgba(15, 52, 96, 0.92) 100%
+    );
     z-index: -2;
 }
 
 body::after {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
@@ -63,20 +65,20 @@ body::after {
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;
-    opacity: 0.15;
+    opacity: 0.3;
     z-index: -3;
 }
 
-/* Контейнер с эффектом стекла */
+/* Контейнер с эффектом стекла и оригинальными цветами */
 .container {
     max-width: 1400px;
     width: 100%;
-    background: var(--bg-card);
-    backdrop-filter: blur(16px);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--glass-border);
+    background-color: rgba(15, 15, 25, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
     padding: 28px 32px;
-    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 58, 0, 0.08) inset;
+    box-shadow: var(--shadow);
     transition: var(--transition);
 }
 
@@ -102,67 +104,80 @@ body::after {
 }
 
 .header h1 {
+    font-family: "Metal Mania", "Arial Black", "Impact", sans-serif;
     font-size: 3.8rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-    background: linear-gradient(135deg, #ffffff 0%, var(--accent-primary) 40%, var(--accent-secondary) 70%, #ffb347 100%);
+    font-weight: bold;
+    letter-spacing: 2px;
+    background: linear-gradient(
+        45deg,
+        #ff8c00 0%,
+        #ffa500 25%,
+        #ffd700 50%,
+        #daa520 75%,
+        #b8860b 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    text-shadow: 0 2px 10px rgba(255, 58, 0, 0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin: 0;
     position: relative;
 }
 
 .header h1::after {
-    content: '';
+    content: "";
     position: absolute;
-    bottom: -8px;
+    bottom: -10px;
     left: 25%;
     width: 50%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-secondary), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--primary-color),
+        var(--secondary-color),
+        transparent
+    );
     border-radius: 2px;
 }
 
 .tagline {
     font-size: 1.1rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.5px;
+    opacity: 0.9;
+    color: #a0a0ff;
     font-weight: 500;
 }
 
-/* Кнопка скачивания */
+/* Кнопка скачивания в оригинальном стиле */
 .android-download-btn-header {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
     padding: 12px 32px;
-    border-radius: 60px;
+    border-radius: 40px;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1rem;
     transition: var(--transition);
-    background: linear-gradient(105deg, #1f1f2e, #2a2a3c);
+    background: linear-gradient(145deg, #3ddc84, #34a853);
     color: white;
-    border: 1px solid rgba(255, 58, 0, 0.4);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 25px rgba(61, 220, 132, 0.3);
 }
 
 .android-download-btn-header i {
     font-size: 1.3rem;
-    color: #3ddc84;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
 }
 
 .android-download-btn-header:hover {
+    background: linear-gradient(145deg, #34a853, #2e7d32);
     transform: translateY(-3px);
-    border-color: var(--accent-primary);
-    box-shadow: 0 15px 30px -8px rgba(255, 58, 0, 0.4);
-    background: linear-gradient(105deg, #252538, #32324a);
+    box-shadow: 0 12px 30px rgba(61, 220, 132, 0.5);
 }
 
-/* ===== MAIN CONTENT (слайдер + расписание) ===== */
+/* ===== MAIN CONTENT ===== */
 .main-content {
     display: flex;
     gap: 28px;
@@ -180,11 +195,11 @@ body::after {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius);
     overflow: hidden;
     background: #000;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--border-color);
 }
 
 .slide {
@@ -194,7 +209,7 @@ body::after {
     width: 100%;
     height: 100%;
     opacity: 0;
-    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide.active {
@@ -218,8 +233,7 @@ body::after {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.7);
     border: none;
     width: 44px;
     height: 44px;
@@ -237,7 +251,7 @@ body::after {
 }
 
 .slide-nav:hover {
-    background: var(--accent-primary);
+    background: var(--primary-color);
     transform: translateY(-50%) scale(1.08);
 }
 
@@ -263,17 +277,23 @@ body::after {
 }
 
 .indicator {
-    width: 8px;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
 }
 
 .indicator.active {
-    background: var(--accent-primary);
-    width: 28px;
+    background: var(--primary-color);
+    transform: scale(1.2);
+    width: 24px;
+    border-radius: 10px;
+}
+
+.indicator:hover {
+    background: var(--secondary-color);
 }
 
 /* Полноэкранные кнопки */
@@ -281,9 +301,9 @@ body::after {
     position: absolute;
     top: 16px;
     right: 16px;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
-    border: none;
+    border: 2px solid rgba(255, 255, 255, 0.5);
     width: 38px;
     height: 38px;
     border-radius: 50%;
@@ -299,7 +319,7 @@ body::after {
 }
 
 .fullscreen-toggle:hover {
-    background: var(--accent-primary);
+    background: var(--primary-color);
     transform: scale(1.05);
 }
 
@@ -307,9 +327,8 @@ body::after {
     position: fixed;
     top: 25px;
     right: 25px;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 58, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.6);
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -321,18 +340,19 @@ body::after {
 }
 
 .fullscreen-exit:hover {
-    background: var(--accent-primary);
+    background: var(--primary-color);
     transform: scale(1.08);
 }
 
 /* Расписание */
 .schedule-sidebar {
     flex: 1;
-    background: rgba(12, 12, 20, 0.6);
-    backdrop-filter: blur(12px);
-    border-radius: var(--radius-md);
+    background: rgba(20, 20, 30, 0.8);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius);
     padding: 20px;
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
 }
 
 .schedule-header {
@@ -340,29 +360,28 @@ body::after {
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
     flex-wrap: wrap;
     gap: 12px;
 }
 
 .schedule-header h2 {
+    color: var(--primary-color);
     font-size: 1.4rem;
-    font-weight: 600;
-    background: linear-gradient(120deg, #fff, var(--accent-secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
     display: flex;
     align-items: center;
     gap: 10px;
+    margin: 0;
 }
 
 .current-time {
-    background: rgba(255, 58, 0, 0.2);
+    background: rgba(255, 94, 0, 0.2);
     padding: 5px 14px;
-    border-radius: 40px;
-    font-weight: 600;
+    border-radius: 20px;
     font-size: 0.9rem;
-    border: 1px solid rgba(255, 58, 0, 0.3);
+    font-weight: bold;
+    color: var(--secondary-color);
 }
 
 .schedule-list-container {
@@ -372,15 +391,18 @@ body::after {
 }
 
 .schedule-list-container::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
 }
 .schedule-list-container::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
+    border-radius: 3px;
 }
 .schedule-list-container::-webkit-scrollbar-thumb {
-    background: var(--accent-primary);
-    border-radius: 4px;
+    background: rgba(255, 94, 0, 0.5);
+    border-radius: 3px;
+}
+.schedule-list-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 94, 0, 0.7);
 }
 
 .schedule-list {
@@ -391,57 +413,63 @@ body::after {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 14px;
+    padding: 12px 15px;
     margin: 8px 0;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
     transition: var(--transition);
     border-left: 3px solid transparent;
 }
 
 .schedule-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
 }
 
 .schedule-item.active {
-    background: rgba(255, 58, 0, 0.12);
-    border-left-color: var(--accent-primary);
+    background: rgba(255, 94, 0, 0.15);
+    border-left-color: var(--primary-color);
 }
 
 .time {
+    color: var(--secondary-color);
     font-weight: 600;
-    color: var(--accent-secondary);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    min-width: 100px;
 }
 
 .program {
-    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    text-align: right;
+    flex: 1;
 }
 
 .live-badge {
-    background: var(--accent-primary);
-    font-size: 0.65rem;
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
     padding: 2px 8px;
-    border-radius: 30px;
-    margin-left: 12px;
-    font-weight: 700;
-    animation: pulse 1.5s infinite;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    margin-left: 8px;
+    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 1; box-shadow: 0 0 8px rgba(255, 58, 0, 0.5); }
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; box-shadow: 0 0 8px var(--primary-color); }
 }
 
 /* ===== ПЛЕЕР ПАНЕЛЬ ===== */
 .player-bottom-panel {
-    background: rgba(8, 8, 14, 0.8);
-    backdrop-filter: blur(20px);
-    border-radius: 80px;
-    padding: 12px 24px;
-    margin-bottom: 20px;
-    border: 1px solid var(--glass-border);
+    width: 100%;
+    background: rgba(15, 15, 25, 0.9);
+    border-radius: var(--radius);
+    padding: 15px 20px;
+    margin: 20px 0;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
 }
 
 .player-controls-wrapper {
@@ -458,7 +486,7 @@ body::after {
 .record-small {
     width: 70px;
     height: 70px;
-    background: radial-gradient(circle at 30% 30%, #1a1a1a, #000);
+    background: radial-gradient(circle, #111 0%, #0a0a0a 70%, #000 100%);
     border-radius: 50%;
     position: relative;
     display: flex;
@@ -466,31 +494,32 @@ body::after {
     justify-content: center;
     cursor: pointer;
     transition: var(--transition);
-    box-shadow: 0 0 0 2px rgba(255, 58, 0, 0.3);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 94, 0, 0.2);
 }
 
 .record-small:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 0 3px rgba(255, 58, 0, 0.6);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255, 94, 0, 0.4), inset 0 0 25px rgba(0, 0, 0, 0.8), 0 0 0 3px rgba(255, 94, 0, 0.3);
 }
 
 .record-center-small {
     position: absolute;
     width: 38%;
     height: 38%;
-    background: linear-gradient(135deg, #2a2a2a, #111);
+    background: linear-gradient(135deg, #222 0%, #111 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(255, 94, 0, 0.3);
 }
 
 .skull-icon-small {
     width: 80%;
     height: 80%;
     object-fit: contain;
-    filter: drop-shadow(0 0 6px var(--accent-primary));
+    filter: drop-shadow(0 0 5px rgba(255, 94, 0, 0.7));
+    transition: var(--transition);
 }
 
 .record-grooves-small {
@@ -505,7 +534,7 @@ body::after {
 .record-grooves-small div {
     position: absolute;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.015);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -522,7 +551,7 @@ body::after {
 }
 
 .status-item {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .status-header {
@@ -533,14 +562,14 @@ body::after {
 }
 
 .status-header i {
-    color: var(--accent-primary);
-    font-size: 0.85rem;
+    color: var(--primary-color);
+    font-size: 0.9rem;
 }
 
 .status-label {
-    color: var(--accent-secondary);
+    color: var(--secondary-color);
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -548,24 +577,27 @@ body::after {
 .marquee-container {
     overflow: hidden;
     white-space: nowrap;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 40px;
-    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    padding: 6px 12px;
 }
 
 .marquee-track {
     display: inline-block;
     animation: marquee 18s linear infinite;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
 }
 
 .next-track-static {
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 40px;
-    padding: 6px 14px;
-    font-size: 0.85rem;
-    border: 1px solid rgba(255, 58, 0, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 0.95rem;
+    border: 1px solid var(--border-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @keyframes marquee {
@@ -589,16 +621,16 @@ body::after {
 }
 
 .volume-control-wrapper i {
-    color: var(--accent-secondary);
+    color: var(--secondary-color);
     font-size: 0.9rem;
 }
 
 .volume-slider {
     flex: 1;
-    height: 4px;
+    height: 5px;
     -webkit-appearance: none;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
     cursor: pointer;
 }
 
@@ -606,17 +638,18 @@ body::after {
     -webkit-appearance: none;
     width: 14px;
     height: 14px;
-    background: var(--accent-primary);
+    background: var(--primary-color);
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 0 6px var(--accent-primary);
+    border: 2px solid #fff;
+    box-shadow: 0 0 8px rgba(255, 94, 0, 0.8);
 }
 
 .volume-percent {
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    color: var(--accent-secondary);
+    color: var(--secondary-color);
     margin-top: 4px;
 }
 
@@ -624,8 +657,8 @@ body::after {
 .station-info-compact {
     display: flex;
     justify-content: center;
-    margin-top: 12px;
-    padding-top: 10px;
+    margin-top: 15px;
+    padding-top: 12px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -633,19 +666,19 @@ body::after {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+    font-size: 0.85rem;
+    color: var(--text-color);
 }
 
 .station-item i {
-    color: var(--accent-primary);
+    color: var(--primary-color);
 }
 
 .station-item strong {
-    color: var(--accent-secondary);
+    color: var(--secondary-color);
 }
 
-/* Социальные кнопки */
+/* Социальные кнопки в оригинальном стиле */
 .social-buttons-container {
     display: flex;
     justify-content: center;
@@ -654,61 +687,78 @@ body::after {
     flex-wrap: wrap;
 }
 
-.telegram-btn, .sponsor-btn {
+.telegram-btn {
     display: inline-flex;
     align-items: center;
     gap: 12px;
     padding: 12px 32px;
-    border-radius: 60px;
+    border-radius: 40px;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1rem;
     transition: var(--transition);
-    backdrop-filter: blur(8px);
-}
-
-.telegram-btn {
-    background: linear-gradient(105deg, #0088cc, #005f8c);
+    background: linear-gradient(145deg, #0088cc, #006699);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 25px rgba(0, 136, 204, 0.3);
 }
 
 .sponsor-btn {
-    background: linear-gradient(105deg, var(--accent-primary), #b12a00);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 32px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: var(--transition);
+    background: linear-gradient(145deg, var(--primary-color), #cc4b00);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 25px rgba(255, 94, 0, 0.3);
 }
 
 .telegram-btn:hover, .sponsor-btn:hover {
     transform: translateY(-3px);
     filter: brightness(1.05);
-    box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.telegram-btn i, .sponsor-btn i {
+    font-size: 1.3rem;
 }
 
 /* Футер */
 .footer {
-    text-align: center;
     margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 0.75rem;
-    color: var(--text-muted);
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-size: 0.85rem;
+    opacity: 0.8;
 }
 
 .footer p {
-    margin: 4px 0;
+    margin: 5px 0;
 }
 
 /* Анимация вращения пластинки */
 .record-playing-small {
-    animation: spinRecord 3s linear infinite;
+    animation: rotate-small 3s linear infinite;
 }
 
-@keyframes spinRecord {
+@keyframes rotate-small {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-/* Полноэкранный режим */
+@keyframes skull-pulse {
+    0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 94, 0, 0.8)); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 15px rgba(255, 94, 0, 1)); transform: scale(1.05); }
+}
+
+/* Полноэкранный режим слайдера */
 .slide-show.fullscreen {
     position: fixed !important;
     top: 0 !important;
@@ -720,6 +770,10 @@ body::after {
     aspect-ratio: unset !important;
 }
 
+.slide-show.fullscreen .slide img {
+    object-fit: contain !important;
+}
+
 body.fullscreen-mode {
     overflow: hidden;
 }
@@ -728,6 +782,11 @@ body.fullscreen-mode .fullscreen-exit {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Скрытый плеер */
+#my_player, .my_player {
+    display: none !important;
 }
 
 /* ===== АДАПТИВНОСТЬ ===== */
@@ -778,12 +837,6 @@ body.fullscreen-mode .fullscreen-exit {
         max-width: 280px;
         justify-content: center;
     }
-}
-
-@media (max-width: 480px) {
-    .header h1 {
-        font-size: 2rem;
-    }
     
     .schedule-item {
         flex-direction: column;
@@ -799,10 +852,29 @@ body.fullscreen-mode .fullscreen-exit {
         flex-direction: column;
         align-items: flex-start;
     }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 2rem;
+    }
     
-    .player-bottom-panel {
-        border-radius: 24px;
-        padding: 16px;
+    .header h1::after {
+        left: 15%;
+        width: 70%;
+    }
+    
+    .tagline {
+        font-size: 0.9rem;
+    }
+    
+    .android-download-btn-header {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .footer p {
+        font-size: 0.7rem;
     }
 }
 
@@ -810,14 +882,24 @@ body.fullscreen-mode .fullscreen-exit {
     .header h1 {
         font-size: 1.6rem;
     }
-    
-    .android-download-btn-header {
-        padding: 8px 20px;
-        font-size: 0.85rem;
-    }
 }
 
-/* Скрытый плеер */
-#my_player, .my_player {
-    display: none !important;
+/* Анимация появления трека */
+.track-appear {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Эффект обновления плейлиста */
+.playlist-update {
+    animation: playlistPulse 0.5s ease;
+}
+
+@keyframes playlistPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; color: var(--primary-color); }
 }
