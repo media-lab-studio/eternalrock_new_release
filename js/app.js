@@ -45,7 +45,7 @@ import {
 const CONFIG = {
   API_BASE: 'https://myradio24.com/users/25968',
   STREAM_URL: 'https://myradio24.org/25968',
-  SLIDES_COUNT: 130,
+  SLIDES_COUNT: 8,
   SLIDE_DURATION: 30000,
   TRACK_UPDATE_INTERVAL: 30000,
   DEFAULT_VOLUME: 0.7,
