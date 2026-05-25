@@ -351,8 +351,15 @@ function toggleFullscreen() {
   } else document.exitFullscreen();
 }
 
-// ===== INIT =====
+// В самом начале init() добавьте проверку
+let isInitialized = false;
+
 async function init() {
+  if (isInitialized) {
+    console.warn('⚠️ App already initialized');
+    return;
+  }
+  
   console.log('🎸 EternalRock v2.0 initializing...');
   initDOM();
   initSlider();
@@ -361,17 +368,12 @@ async function init() {
   setupEventListeners();
   fetchTrackData();
   
-  // Обновление времени каждую минуту
   updateCurrentTime();
   setInterval(updateCurrentTime, 60000);
   setInterval(highlightCurrentProgram, 60000);
   
+  isInitialized = true;
   console.log('✅ EternalRock ready!');
-  
-  // Debug API (только для разработки)
-  if (window.location.hostname.includes('localhost') || window.location.hostname.includes('github.io')) {
-    window.EternalRock = { togglePlay, goToSlide, fetchTrackData, getCurrentProgram, SCHEDULE, state, CONFIG };
-  }
 }
 
 // ===== START =====
