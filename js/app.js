@@ -1,31 +1,3 @@
-// 🔍 МОНИТОРИНГ: кто меняет стили body/app-container?
-(function monitorStyles() {
-  const targets = [document.body, document.querySelector('.app-container')].filter(Boolean);
-  
-  // targets.forEach(target => {
-  //   const observer = new MutationObserver((mutations) => {
-  //     mutations.forEach(m => {
-  //       if (m.attributeName === 'style' || m.attributeName === 'class') {
-  //         console.warn('⚠️ Style changed on', target.tagName + '.' + target.className, {
-  //           attribute: m.attributeName,
-  //           oldValue: m.oldValue,
-  //           newValue: target.getAttribute('style') || target.className,
-  //           stack: new Error().stack
-  //         });
-  //       }
-  //     });
-  //   });
-    
-  //   observer.observe(target, {
-  //     attributes: true,
-  //     attributeFilter: ['style', 'class'],
-  //     attributeOldValue: true
-  //   });
-  // });
-  
-  console.log('🔍 Style monitoring active');
-})();
-
 /**
  * EternalRock — Modern Player Application
  * ES6 Modules Version for GitHub Pages
@@ -45,7 +17,7 @@ import {
 const CONFIG = {
   API_BASE: 'https://myradio24.com/users/25968',
   STREAM_URL: 'https://myradio24.org/25968',
-  SLIDES_COUNT: 8,
+  SLIDES_COUNT: 8,  // Исправлено: 8 слайдов
   SLIDE_DURATION: 30000,
   TRACK_UPDATE_INTERVAL: 30000,
   DEFAULT_VOLUME: 0.7,
@@ -97,23 +69,37 @@ function initDOM() {
 function initSlider() {
   if (!DOM.slider.track || !DOM.slider.indicators) return;
   
-  const startIndex = Math.floor(Math.random() * CONFIG.SLIDES_COUNT);
+  // Очищаем контейнеры
+  DOM.slider.track.innerHTML = '';
+  DOM.slider.indicators.innerHTML = '';
   
   for (let i = 0; i < CONFIG.SLIDES_COUNT; i++) {
     const slide = document.createElement('div');
     slide.className = 'slide';
-    slide.innerHTML = `<img src="img/slides/slide${i + 1}.jpg" alt="Slide ${i+1}" loading="lazy">`;
+    const img = document.createElement('img');
+    img.src = `img/slides/slide${i + 1}.jpg`;
+    img.alt = `Slide ${i + 1}`;
+    img.loading = "lazy";
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
+    slide.appendChild(img);
     DOM.slider.track.appendChild(slide);
     
-    if (i < 5) {
-      const dot = document.createElement('span');
-      dot.className = `indicator ${i === startIndex ? 'active' : ''}`;
-      dot.dataset.index = i;
-      DOM.slider.indicators.appendChild(dot);
-    }
+    // Создаем индикаторы для всех слайдов
+    const dot = document.createElement('span');
+    dot.className = 'indicator';
+    dot.dataset.index = i;
+    DOM.slider.indicators.appendChild(dot);
   }
   
+  const startIndex = 0;
   goToSlide(startIndex);
+  
+  // Активируем первый индикатор
+  const firstIndicator = DOM.slider.indicators.children[0];
+  if (firstIndicator) firstIndicator.classList.add('active');
+  
   startAutoSlide();
 }
 
@@ -122,8 +108,8 @@ function goToSlide(index) {
   state.currentSlide = (index + CONFIG.SLIDES_COUNT) % CONFIG.SLIDES_COUNT;
   DOM.slider.track.style.transform = `translateX(-${state.currentSlide * 100}%)`;
   
-  document.querySelectorAll('.indicator').forEach((dot, i) => {
-    dot.classList.toggle('active', i === state.currentSlide % 5);
+  Array.from(DOM.slider.indicators.children).forEach((dot, i) => {
+    dot.classList.toggle('active', i === state.currentSlide);
   });
 }
 
@@ -181,7 +167,6 @@ function initPlayer() {
     disableWakeLock();
   });
 
-  // ✅ ДОБАВЬТЕ ПРОВЕРКУ перед установкой value
   if (DOM.player.volumeSlider) {
     DOM.player.volumeSlider.value = state.volume * 100;
     updateVolumeDisplay(state.volume * 100);
@@ -191,8 +176,6 @@ function initPlayer() {
       DOM.audio.volume = state.volume;
       updateVolumeDisplay(e.target.value);
     });
-  } else {
-    console.warn('⚠️ volumeSlider not found');
   }
   
   console.log('🎵 Player initialized');
@@ -283,62 +266,84 @@ function showNotification(msg) {
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
-  DOM.slider.prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); goToSlide(state.currentSlide-1); resetAutoSlide(); });
+  DOM.slider.prevBtn?.addEventListener('click', (e) => { 
+    e.stopPropagation(); 
+    goToSlide(state.currentSlide - 1); 
+    resetAutoSlide(); 
+  });
+  
   DOM.slider.nextBtn?.addEventListener('click', (e) => {
     e.stopPropagation();
-    let next; do { next = Math.floor(Math.random()*CONFIG.SLIDES_COUNT); } while(next===state.currentSlide && CONFIG.SLIDES_COUNT>1);
-    goToSlide(next); resetAutoSlide();
+    let next; 
+    do { next = Math.floor(Math.random() * CONFIG.SLIDES_COUNT); } 
+    while (next === state.currentSlide && CONFIG.SLIDES_COUNT > 1);
+    goToSlide(next); 
+    resetAutoSlide();
   });
+  
   DOM.slider.indicators?.addEventListener('click', (e) => {
-    if(e.target.classList.contains('indicator')) { e.stopPropagation(); goToSlide(parseInt(e.target.dataset.index)); resetAutoSlide(); }
+    if (e.target.classList.contains('indicator')) { 
+      e.stopPropagation(); 
+      goToSlide(parseInt(e.target.dataset.index)); 
+      resetAutoSlide(); 
+    }
   });
-  DOM.slider.fullscreenBtn?.addEventListener('click', (e) => { e.stopPropagation(); toggleFullscreen(); });
+  
+  DOM.slider.fullscreenBtn?.addEventListener('click', (e) => { 
+    e.stopPropagation(); 
+    toggleFullscreen(); 
+  });
   
   DOM.player.playBtn?.addEventListener('click', togglePlay);
+  
   DOM.player.muteBtn?.addEventListener('click', () => {
-    if(DOM.audio) {
+    if (DOM.audio) {
       DOM.audio.muted = !DOM.audio.muted;
       DOM.player.muteBtn.innerHTML = DOM.audio.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
     }
   });
 
   document.addEventListener('keydown', (e) => {
-    if(['INPUT','TEXTAREA'].includes(e.target.tagName)) return;
+    if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
     switch(e.code) {
       case 'Space': e.preventDefault(); togglePlay(); break;
       case 'ArrowUp': e.preventDefault(); changeVolume(0.1); break;
       case 'ArrowDown': e.preventDefault(); changeVolume(-0.1); break;
-      case 'KeyM': e.preventDefault(); if(DOM.audio){DOM.audio.muted=!DOM.audio.muted; DOM.player.muteBtn.innerHTML=DOM.audio.muted?'<i class="fas fa-volume-mute"></i>':'<i class="fas fa-volume-up"></i>';} break;
-      case 'Escape': if(document.fullscreenElement) document.exitFullscreen(); break;
+      case 'KeyM': e.preventDefault(); 
+        if (DOM.audio) {
+          DOM.audio.muted = !DOM.audio.muted; 
+          DOM.player.muteBtn.innerHTML = DOM.audio.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+        } 
+        break;
+      case 'Escape': 
+        if (document.fullscreenElement) document.exitFullscreen(); 
+        break;
     }
   });
 
   DOM.slider.wrapper?.addEventListener('mouseenter', stopAutoSlide);
   DOM.slider.wrapper?.addEventListener('mouseleave', startAutoSlide);
   
-  document.addEventListener('click', (e) => {
-    if(document.fullscreenElement && !e.target.closest('.slider-wrapper') && !e.target.closest('.slider-fullscreen')) 
-      document.exitFullscreen();
-  });
-  
   document.addEventListener('fullscreenchange', () => {
     DOM.slider.wrapper?.classList.toggle('fullscreen', !!document.fullscreenElement);
     const icon = DOM.slider.fullscreenBtn?.querySelector('i');
-    if(icon) icon.className = document.fullscreenElement ? 'fas fa-compress' : 'fas fa-expand';
+    if (icon) icon.className = document.fullscreenElement ? 'fas fa-compress' : 'fas fa-expand';
   });
 }
 
 function changeVolume(delta) {
-  if(!DOM.player.volumeSlider || !DOM.audio) return;
+  if (!DOM.player.volumeSlider || !DOM.audio) return;
   const newVol = Math.max(0, Math.min(1, state.volume + delta));
-  state.volume = newVol; DOM.audio.volume = newVol;
-  DOM.player.volumeSlider.value = newVol * 100; updateVolumeDisplay(newVol * 100);
+  state.volume = newVol; 
+  DOM.audio.volume = newVol;
+  DOM.player.volumeSlider.value = newVol * 100; 
+  updateVolumeDisplay(newVol * 100);
 }
 
 // ===== FULLSCREEN =====
 function toggleFullscreen() {
-  if(!DOM.slider.wrapper) return;
-  if(!document.fullscreenElement) {
+  if (!DOM.slider.wrapper) return;
+  if (!document.fullscreenElement) {
     DOM.slider.wrapper.requestFullscreen?.().catch(e => {
       console.warn('Fullscreen error:', e.message);
       showNotification('⚠️ Полноэкранный режим недоступен');
@@ -348,128 +353,33 @@ function toggleFullscreen() {
 
 // ===== INIT =====
 async function init() {
-  console.log('🎸 EternalRock v2.0 (Modules) initializing...');
+  console.log('🎸 EternalRock v2.0 initializing...');
   initDOM();
   initSlider();
-  
-  // ✅ Инициализация модуля расписания
   initSchedule({ list: '#scheduleList', currentTime: '#currentTime' });
-  
   initPlayer();
+  setupEventListeners();
+  fetchTrackData();
+  
+  // Обновление времени каждую минуту
   updateCurrentTime();
   setInterval(updateCurrentTime, 60000);
   setInterval(highlightCurrentProgram, 60000);
   
-  setupEventListeners();
-  fetchTrackData();
-  
   console.log('✅ EternalRock ready!');
   
-  // Debug API
-  if(window.location.hostname.includes('localhost') || window.location.hostname.includes('github.io')) {
+  // Debug API (только для разработки)
+  if (window.location.hostname.includes('localhost') || window.location.hostname.includes('github.io')) {
     window.EternalRock = { togglePlay, goToSlide, fetchTrackData, getCurrentProgram, SCHEDULE, state, CONFIG };
   }
 }
 
 // ===== START =====
-if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
 else init();
 
-// 🔥🔥🔥 ЯДЕРНЫЙ ФИКС ЦЕНТРИРОВАНИЯ — ИСПРАВЛЕННАЯ ВЕРСИЯ 🔥🔥🔥
-(function forceCentering() {
-  'use strict';
-  
-  function applyFix() {
-    const html = document.documentElement;
-    const body = document.body;
-    const container = document.querySelector('.app-container');
-    
-    if (!body || !container) {
-      console.warn('⏳ Waiting for DOM...');
-      requestAnimationFrame(applyFix);
-      return;
-    }
-    
-    console.log('🔥 Applying nuclear centering fix (setProperty version)...');
-    
-    // 🔧 Вспомогательная функция для установки стиля с !important
-    const setImportant = (el, prop, value) => {
-      el.style.setProperty(prop, value, 'important');
-    };
-    
-    // Фиксируем html
-    setImportant(html, 'width', '100vw');
-    setImportant(html, 'max-width', 'none');
-    setImportant(html, 'overflow-x', 'hidden');
-    setImportant(html, 'margin', '0');
-    setImportant(html, 'padding', '0');
-    
-    // Фиксируем body
-    setImportant(body, 'position', 'fixed');
-    setImportant(body, 'top', '0');
-    setImportant(body, 'left', '0');
-    setImportant(body, 'right', '0');
-    setImportant(body, 'bottom', '0');
-    setImportant(body, 'width', '100vw');
-    setImportant(body, 'min-width', '100vw');
-    setImportant(body, 'max-width', 'none');
-    setImportant(body, 'height', '100vh');
-    setImportant(body, 'min-height', '100vh');
-    setImportant(body, 'display', 'flex');
-    setImportant(body, 'justify-content', 'center');
-    setImportant(body, 'align-items', 'stretch');
-    setImportant(body, 'overflow', 'hidden');
-    setImportant(body, 'margin', '0');
-    setImportant(body, 'padding', '0');
-    setImportant(body, 'transform', 'none');
-    setImportant(body, 'translate', 'none');
-    setImportant(body, 'flex-shrink', '0');
-    setImportant(body, 'flex-grow', '0');
-    
-    // Фиксируем контейнер
-    setImportant(container, 'display', 'grid');
-    setImportant(container, 'grid-template-rows', 'auto 1fr auto auto');
-    setImportant(container, 'grid-template-areas', '"header" "content" "player" "social"');
-    setImportant(container, 'height', '100vh');
-    setImportant(container, 'width', '100%');
-    setImportant(container, 'max-width', '1400px');
-    setImportant(container, 'margin', '0 auto');
-    setImportant(container, 'margin-left', 'auto');
-    setImportant(container, 'margin-right', 'auto');
-    setImportant(container, 'padding', '20px');
-    setImportant(container, 'gap', '12px');
-    setImportant(container, 'position', 'relative');
-    setImportant(container, 'z-index', '1');
-    setImportant(container, 'left', 'auto');
-    setImportant(container, 'right', 'auto');
-    setImportant(container, 'transform', 'none');
-    setImportant(container, 'translate', 'none');
-    
-    // Визуальная проверка
-    body.style.outline = '2px solid lime';
-    container.style.outline = '3px dashed #ff5e00';
-    container.style.outlineOffset = '-3px';
-    
-    console.log('✅ Nuclear fix applied with setProperty! Check centering.');
-    
-    // Финальная проверка через 200мс
-    setTimeout(() => {
-      const rect = container.getBoundingClientRect();
-      const offset = Math.abs(rect.left - (window.innerWidth - rect.right)) / 2;
-      console.log(`📐 Final offset: ${offset.toFixed(1)}px ${offset <= 2 ? '✅' : '❌'}`);
-    }, 200);
-  }
-  
-  // Запускаем после полной загрузки
-  if (document.readyState === 'complete') {
-    applyFix();
-  } else {
-    window.addEventListener('load', applyFix);
-  }
-})();
-
 // ===== CSS ANIMATIONS =====
-if(!document.getElementById('eternalrock-styles')) {
+if (!document.getElementById('eternalrock-styles')) {
   const style = document.createElement('style');
   style.id = 'eternalrock-styles';
   style.textContent = `@keyframes fadeInUp{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}@keyframes fadeOut{from{opacity:1;transform:translate(-50%,0)}to{opacity:0;transform:translate(-50%,-10px)}}`;
