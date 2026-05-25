@@ -1,7 +1,7 @@
 // Функция для генерации слайдов и индикаторов
 function generateSlides() {
-  const slidesContainer = document.getElementById("slidesContainer");
-  const indicatorsContainer = document.getElementById("slideIndicators");
+  const slidesContainer = document.getElementById("slidesTrack");
+  const indicatorsContainer = document.getElementById("sliderIndicators");
 
   if (!slidesContainer) return;
 
@@ -9,32 +9,37 @@ function generateSlides() {
   slidesContainer.innerHTML = "";
   indicatorsContainer.innerHTML = "";
 
-  // Массив с alt текстами для разных слайдов
   const altTexts = {
     1: "Rock Concert",
-    2: "Guitar Player",
+    2: "Guitar Player", 
     3: "Band Performance",
     4: "Stage Show",
   };
 
   let i = 1;
   let totalSlides = 0;
-  let stop = false; // Флаг остановки
+  let stop = false;
   
-  function tryLoadSlide() {
-    if (stop) return; // Если остановили - выходим
+  function loadNextSlide() {
+    if (stop) return;
     
     const img = new Image();
     img.onload = () => {
       if (stop) return;
-      // Слайд существует - создаем его
+      
+      // Создаем слайд
       const slideDiv = document.createElement("div");
       slideDiv.className = `slide ${totalSlides === 0 ? "active" : ""}`;
+      
       img.alt = altTexts[i] || "Audience";
       img.loading = "lazy";
+      img.style.width = "100%";
+      img.style.height = "100%";
+      img.style.objectFit = "cover";
+      
       slideDiv.appendChild(img);
       slidesContainer.appendChild(slideDiv);
-
+      
       // Создаем индикатор
       const indicator = document.createElement("span");
       indicator.className = `indicator ${totalSlides === 0 ? "active" : ""}`;
@@ -42,17 +47,24 @@ function generateSlides() {
       
       totalSlides++;
       i++;
-      tryLoadSlide(); // Пробуем следующий
+      loadNextSlide();
     };
     
     img.onerror = () => {
-      // Слайд не существует - останавливаемся навсегда
       stop = true;
       console.log(`✅ Сгенерировано ${totalSlides} слайдов`);
+      
+      // Если нет слайдов - показываем заглушку
+      if (totalSlides === 0) {
+        const slideDiv = document.createElement("div");
+        slideDiv.className = "slide active";
+        slideDiv.innerHTML = '<div style="background:#1a1a2e; display:flex; align-items:center; justify-content:center; height:100%; color:white;">Нет изображений</div>';
+        slidesContainer.appendChild(slideDiv);
+      }
     };
     
     img.src = `img/slides/slide${i}.jpg`;
   }
   
-  tryLoadSlide();
+  loadNextSlide();
 }
