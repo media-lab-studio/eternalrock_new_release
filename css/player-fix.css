@@ -1,0 +1,453 @@
+/* ===========================================
+   ПЛЕЕР
+   =========================================== */
+
+.player-bottom-panel {
+  width: 100%;
+  background: rgba(15, 15, 25, 0.9);
+  border-radius: 15px;
+  padding: 15px 20px;
+  margin: 20px 0;
+  border: 1px solid rgba(255, 94, 0, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.player-controls-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Маленькая пластинка */
+.record-container-small {
+  flex-shrink: 0;
+}
+
+.record-small {
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle, #111 0%, #0a0a0a 70%, #000 100%);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.8),
+    inset 0 0 20px rgba(0, 0, 0, 0.8),
+    0 0 0 2px rgba(255, 94, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 6px solid #111;
+  overflow: hidden;
+}
+
+.record-small:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 25px rgba(255, 94, 0, 0.4),
+    inset 0 0 25px rgba(0, 0, 0, 0.8),
+    0 0 0 3px rgba(255, 94, 0, 0.3);
+}
+
+.record-center-small {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  background: linear-gradient(135deg, #222 0%, #111 100%);
+  border-radius: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.9),
+    0 0 0 2px rgba(255, 94, 0, 0.3);
+  border: 2px solid #333;
+}
+
+.skull-icon-small {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px rgba(255, 94, 0, 0.7));
+  transition: all 0.3s ease;
+}
+
+.record-grooves-small {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  top: 15%;
+  left: 15%;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+.record-grooves-small div {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.015);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.groove-small-1 {
+  width: 100%;
+  height: 100%;
+}
+.groove-small-2 {
+  width: 85%;
+  height: 85%;
+}
+.groove-small-3 {
+  width: 70%;
+  height: 70%;
+}
+
+/* Статусы плеера */
+.player-status {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.status-item {
+  flex: 1;
+  min-width: 0;
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.status-header i {
+  color: #ff5e00;
+  font-size: 0.9rem;
+}
+
+.status-label {
+  color: #ff9d5c;
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* Бегущая строка для текущего трека */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  height: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+.marquee-track {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 20s linear infinite;
+  font-weight: 500;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+/* Статичный текст для следующего трека */
+.next-track-static {
+  height: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid rgba(255, 94, 0, 0.2);
+}
+
+/* Панель контроля громкости */
+.volume-control-panel {
+  flex-shrink: 0;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.volume-control-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.volume-control-wrapper i {
+  color: #ff9d5c;
+  font-size: 0.9rem;
+}
+
+.volume-slider {
+  flex: 1;
+  height: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ff5e00;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(255, 94, 0, 0.8);
+}
+
+.volume-percent {
+  color: #ff9d5c;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ===========================================
+   КОНТЕЙНЕР ДЛЯ КНОПОК (СПОНСИРОВАНИЕ И TELEGRAM)
+   =========================================== */
+
+.social-buttons-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 15px auto 20px auto;
+  width: 100%;
+  max-width: 540px;
+}
+
+/* ===========================================
+   КНОПКА TELEGRAM
+   =========================================== */
+
+.telegram-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 28px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  background: linear-gradient(145deg, #0088cc, #006699);
+  color: white;
+  box-shadow:
+    0 6px 25px rgba(0, 136, 204, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
+
+.telegram-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.telegram-btn:hover {
+  background: linear-gradient(145deg, #006699, #004466);
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 30px rgba(0, 136, 204, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.telegram-btn:hover::before {
+  left: 100%;
+}
+
+.telegram-btn:active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 136, 204, 0.5);
+}
+
+.telegram-btn i {
+  font-size: 1.3rem;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+/* ===========================================
+   КНОПКА СПОНСИРОВАНИЯ
+   =========================================== */
+
+.sponsor-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 28px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  background: linear-gradient(145deg, #ff5e00, #cc4b00);
+  color: white;
+  box-shadow:
+    0 6px 25px rgba(255, 94, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
+
+.sponsor-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.sponsor-btn:hover {
+  background: linear-gradient(145deg, #cc4b00, #993800);
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 30px rgba(255, 94, 0, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.sponsor-btn:hover::before {
+  left: 100%;
+}
+
+.sponsor-btn:active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 94, 0, 0.5);
+}
+
+.sponsor-btn i {
+  font-size: 1.3rem;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+/* ===========================================
+   АНИМАЦИИ
+   =========================================== */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes skull-pulse {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(255, 94, 0, 0.8));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(255, 94, 0, 1));
+    transform: scale(1.05);
+  }
+  100% {
+    filter: drop-shadow(0 0 5px rgba(255, 94, 0, 0.8));
+    transform: scale(1);
+  }
+}
+
+.record-playing-small {
+  animation: rotate-small 3s linear infinite;
+}
+
+@keyframes rotate-small {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.telegram-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 28px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  background: linear-gradient(145deg, #0088cc, #006699);
+  color: white;
+  box-shadow:
+    0 6px 25px rgba(0, 136, 204, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
